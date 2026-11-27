@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="炙餃座，從鍋貼吃到高級料理。可線上點餐、翻閱餐點專題、選購冷凍禮盒與查詢門市（示範網站）。">
 <meta name="theme-color" content="#1B120C">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="炙餃座">
 <title>炙餃座｜從鍋貼吃到高級料理</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -636,7 +642,7 @@ body.lock .keeper{visibility:hidden}
     <div class="wrap">
       <div class="sec-head"><h2 id="faq-h">常見問題</h2></div>
       <div class="faq">
-        <details><summary>怎麼線上點餐？</summary><p>在「線上點餐」選擇分類，按「加入購物車」，再到購物車前往結帳。目前為模擬訂單，不會真的送出。</p></details>
+        <details><summary>怎麼線上點餐？</summary><p id="faqOrder">在「線上點餐」選擇分類，按「加入購物車」，再到購物車前往結帳。目前為模擬訂單，不會真的送出。</p></details>
         <details><summary>可以內用、外帶或宅配嗎？</summary><p>現做餐點可內用或外帶；冷凍商品可外帶或宅配；兩者同車時僅提供外帶。</p></details>
         <details><summary>冷凍鍋貼怎麼保存與煎煮？</summary><p>請依產品包裝標示。保存期限與烹調時間<span class="pending">待確認</span></p></details>
         <details><summary>宅配的運費與到貨時間？</summary><p>宅配運費 NT$120，單筆滿 NT$1,000 免運費。可配送地區與到貨時間<span class="pending">待確認</span></p></details>
@@ -691,7 +697,7 @@ body.lock .keeper{visibility:hidden}
 <!-- 模擬結帳視窗 -->
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="co-title" hidden>
   <div class="modal-box">
-    <div class="modal-head"><h2 id="co-title">訂單確認 <span class="stamp">模擬訂單</span></h2><button class="iconbtn" id="coClose" type="button" aria-label="關閉結帳視窗"><i data-lucide="x" class="icon"></i></button></div>
+    <div class="modal-head"><h2 id="co-title">訂單確認 <span class="stamp" id="coStamp">模擬訂單</span></h2><button class="iconbtn" id="coClose" type="button" aria-label="關閉結帳視窗"><i data-lucide="x" class="icon"></i></button></div>
     <div class="modal-body" id="coBody"></div>
   </div>
 </div>
@@ -1040,21 +1046,36 @@ function rules(){
   return { opts:['dine','takeout'], note:'現做餐點可選內用或外帶。' };
 }
 const METHOD = { dine:'內用', takeout:'外帶', delivery:'宅配' };
-const SHIP_FEE = 120, FREE_SHIP = 1000; // 宅配運費；單筆滿額免運
+const SHIP_FEE = 120, FREE_SHIP = 1000; // 宅配運費；單筆滿額免運（顯示用，實際金額以試算表「設定」「商品」分頁為準）
+/* 訂單接收端：貼上 Google Apps Script 網頁應用程式網址（結尾 /exec）。留空 = 維持示範模式，不送出任何資料。 */
+const ORDER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxJFYx_O4OKx0V1SZk2Cx9q28Rc5IcB7RTT-7jsyFL0fVfP8lkIgHZfRUyxf5w1Xd2K/exec';
+const LIVE = !!ORDER_ENDPOINT;
+if (LIVE) { const f = document.getElementById('faqOrder'); if (f) f.textContent = '在「線上點餐」選擇分類，按「加入購物車」，再到購物車前往結帳，填寫聯絡資料後送出訂單。本站不線上收款，付款方式由店家與你聯絡確認。'; }
+const newClientId = () => (crypto.randomUUID ? crypto.randomUUID() : 'c-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
+let orderClientId = '';
+async function sendOrder(payload){
+  const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 20000);
+  try {
+    const res = await fetch(ORDER_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload), redirect: 'follow', signal: ctl.signal });
+    return await res.json();
+  } finally { clearTimeout(timer); }
+}
 const shipFee = (mth, sub) => mth === 'delivery' && sub < FREE_SHIP ? SHIP_FEE : 0;
-function sumHTML(mth){
-  const sub = cartTotal(), fee = shipFee(mth, sub);
+function sumHTML(mth, srv){
+  const sub = cartTotal(), fee = srv ? srv.shipping : shipFee(mth, sub);
   let h = cartItems().map(({p, qty}) => `<li><span>${esc(p.name)} × ${qty}</span><span>${money(p.price * qty)}</span></li>`).join('');
   if (mth === 'delivery') {
     h += `<li><span>運費</span><span>${fee ? money(fee) : '免運'}</span></li>`;
     if (fee) h += `<li class="hint"><span>再買 ${money(FREE_SHIP - sub)} 即可免運</span><span></span></li>`;
   }
-  return h + `<li class="t"><span>總金額</span><span>${money(sub + fee)}</span></li>`;
+  return h + `<li class="t"><span>總金額</span><span>${money(srv ? srv.total : sub + fee)}</span></li>`;
 }
 
 function openCheckout(){
   if (!cartItems().length) return;
   if (window.Order3D) Order3D.load();
+  orderClientId = newClientId();
+  $('coStamp').hidden = LIVE;
   coOpener = $('checkoutBtn');
   closeDrawer(false);
   const r = rules();
@@ -1069,8 +1090,10 @@ function openCheckout(){
       <div class="fld"><label for="f-tel">手機或電話</label><input id="f-tel" name="tel" inputmode="tel" autocomplete="tel" placeholder="例如 0912345678" aria-describedby="e-tel"><p class="err" id="e-tel" hidden></p></div>
       <div class="fld" id="w-store"><label for="f-store">取餐門市</label><select id="f-store" name="store" aria-describedby="e-store"><option value="">請選擇門市</option>${STORES.map(s => `<option value="${esc(s.name)}">${esc(s.name)}</option>`).join('')}</select><p class="err" id="e-store" hidden></p></div>
       <div class="fld" id="w-addr" hidden><label for="f-addr">收件地址</label><input id="f-addr" name="addr" autocomplete="street-address" aria-describedby="e-addr"><p class="err" id="e-addr" hidden></p></div>
-      <p class="note" style="margin-bottom:14px">姓名、電話與地址僅用於這次結帳畫面，不會儲存或送出。</p>
-      <button class="btn btn-primary" type="submit" style="width:100%">建立示範訂單 <span class="arr" aria-hidden="true">→</span></button>
+      <p class="note" style="margin-bottom:14px">${LIVE ? '姓名、電話與地址會送給店家，只用來處理這筆訂單與聯絡你。' : '姓名、電話與地址僅用於這次結帳畫面，不會儲存或送出。'}</p>
+      <input type="text" name="website" id="f-website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <p class="err" id="e-submit" role="alert" hidden></p>
+      <button class="btn btn-primary" type="submit" id="submitBtn" style="width:100%">${LIVE ? '送出訂單' : '建立示範訂單'} <span class="arr" aria-hidden="true">→</span></button>
     </form>`;
   const m = $('modal'); m.hidden = false; document.body.classList.add('lock');
   syncMethod();
@@ -1092,7 +1115,7 @@ function setErr(k, msg){
   e.textContent = msg; e.hidden = !msg;
   if (msg) f.setAttribute('aria-invalid', 'true'); else f.removeAttribute('aria-invalid');
 }
-function submitCheckout(ev){
+async function submitCheckout(ev){
   ev.preventDefault();
   const del = method() === 'delivery';
   const name = $('f-name').value.trim(), tel = $('f-tel').value.replace(/[\s-]/g, ''), store = $('f-store').value, addr = $('f-addr').value.trim();
@@ -1103,12 +1126,27 @@ function submitCheckout(ev){
   if (del) setErr('addr', addr.length >= 6 ? '' : (bad.push('addr'), '請填寫完整收件地址。'));
   if (bad.length){ $('f-' + bad[0]).focus(); return; }
 
-  const mth = method(), doneSum = sumHTML(mth);
+  const mth = method();
+  let no = 'DEMO-' + Date.now().toString().slice(-6), srv = null;
+  if (LIVE) {
+    const btn = $('submitBtn'), errBox = $('e-submit'), label = btn.innerHTML;
+    errBox.hidden = true; btn.disabled = true; btn.textContent = '送出中…';
+    try {
+      const res = await sendOrder({ clientId: orderClientId, method: mth, name, tel, store: del ? '' : store, addr: del ? addr : '', website: $('f-website').value,
+        items: cartItems().map(i => ({ id: i.p.id, qty: i.qty })) });
+      if (!res || !res.ok || !res.orderNo) throw new Error((res && res.message) || '送出失敗，請稍後再試。');
+      no = res.orderNo; srv = res;
+    } catch (e) {
+      // 逾時或連線失敗時，訂單可能已寫入；同一個識別碼重送不會產生第二筆
+      errBox.textContent = e.name === 'AbortError' || e instanceof TypeError ? '網路連線不穩，訂單尚未確認送出。請再按一次「送出訂單」，不會重複下單。' : e.message;
+      errBox.hidden = false; btn.disabled = false; btn.innerHTML = label; return;
+    }
+  }
+  const doneSum = sumHTML(mth, srv);
   const use3d = !!(window.Order3D && Order3D.ready3d);
-  const no = 'DEMO-' + Date.now().toString().slice(-6);
   justOrdered = name;
   $('coBody').innerHTML = `<div class="done" tabindex="-1" id="doneBox">
-    <span class="seal" aria-hidden="true">示範<br>完成</span>
+    <span class="seal" aria-hidden="true">${LIVE ? '訂單<br>成立' : '示範<br>完成'}</span>
     ${use3d ? `<div class="scene-stage done-scene" id="doneScene" aria-hidden="true">
       <img class="scene-bg" src="assets/izakaya.jpg" alt="" width="1600" height="900">
       <div class="scene-keeper" id="doneKeeper" data-pose="greet"><img src="assets/keeper-greet.png" alt="" data-p="greet" class="on"><img src="assets/keeper-bow.png" alt="" data-p="bow"><img src="assets/keeper-offer.png" alt="" data-p="offer"><img src="assets/keeper-thumb.png" alt="" data-p="thumb"></div>
@@ -1116,8 +1154,8 @@ function submitCheckout(ev){
       <p class="scene-bubble" id="doneBubble" hidden></p>
     </div>` : `<div class="cat-stage" id="doneCat" aria-hidden="true"><div class="cat-layer"></div></div>`}
 
-    <h3>示範訂單已建立</h3>
-    <p class="note" style="margin-bottom:14px">這是模擬訂單，沒有實際送出或收款。編號 ${no}</p>
+    <h3>${LIVE ? '訂單已送出' : '示範訂單已建立'}</h3>
+    <p class="note" style="margin-bottom:14px">${LIVE ? `訂單已送給店家，編號 ${no}。本站不線上收款，付款方式由店家與你聯絡確認。` : `這是模擬訂單，沒有實際送出或收款。編號 ${no}`}</p>
     <ul class="sum">${doneSum}</ul>
     <p>取餐方式：${METHOD[mth]}${del ? '' : '　門市：' + esc(store)}</p>
     ${del ? `<p>收件地址：${esc(addr)}</p>` : ''}
@@ -1133,7 +1171,7 @@ function closeCheckout(){
   $('modal').hidden = true; $('coBody').innerHTML = ''; document.body.classList.remove('lock');
   const o = coOpener && document.contains(coOpener) && !coOpener.disabled ? coOpener : $('cartOpen');
   o.focus();
-  if (justOrdered) { keeperSay(`謝謝 <b>${esc(justOrdered)}</b>！示範訂單已建立，下次見～`, [], { shout:'謝謝光臨！', pose:'bow', hold: 4200 }); justOrdered = ''; }
+  if (justOrdered) { keeperSay(`謝謝 <b>${esc(justOrdered)}</b>！${LIVE ? '訂單已送出' : '示範訂單已建立'}，下次見～`, [], { shout:'謝謝光臨！', pose:'bow', hold: 4200 }); justOrdered = ''; }
 }
 let justOrdered = '';
 
@@ -1521,7 +1559,7 @@ function runDone3D(){
     k.classList.remove('nod'); void k.offsetWidth; k.classList.add('nod');
   };
   const ok = Order3D.play(stage, {
-    reduced: reduced.matches, debug: /[?&]debug3d\b/.test(location.search),
+    sayText: LIVE ? '謝謝光臨！訂單已送出。' : '謝謝光臨！示範訂單已建立。', reduced: reduced.matches, debug: /[?&]debug3d\b/.test(location.search),
     onPose: pose, onSay: t => { b.textContent = t; b.hidden = false; }
   });
   if (!ok) { stage.outerHTML = '<div class="cat-stage" id="doneCat" aria-hidden="true"><div class="cat-layer"></div></div>'; runDoneCat(); }
@@ -1608,5 +1646,8 @@ document.addEventListener('DOMContentLoaded', icons);
 </script>
 <a class="book-fab" href="https://calendar.app.google/Um3pydqBLVJejtHQ9" target="_blank" rel="noopener noreferrer" aria-label="預約訂位（另開新視窗）"><i data-lucide="calendar-check" class="icon"></i><span>預約</span></a>
 <script src="assets/order3d.js" defer></script>
+<script>
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+</script>
 </body>
 </html>

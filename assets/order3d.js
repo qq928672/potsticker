@@ -223,7 +223,7 @@
       setSurface(CAL.stopX, false); c.yaw = Math.PI + 0.32; c.p = newPose(); c.p.rest = 1; c.p.tailLift = 0;
     }
     async function timeline() {
-      if (opts.reduced) { finalPose(); if (opts.onPose) opts.onPose('thumb'); if (opts.onSay) opts.onSay('謝謝光臨！示範訂單已建立。'); return; }
+      if (opts.reduced) { finalPose(); if (opts.onPose) opts.onPose('thumb'); if (opts.onSay) opts.onSay(opts.sayText || '謝謝光臨！'); return; }
       if (opts.onPose) opts.onPose('greet');
       setSurface(CAL.enterX, true);
       await walkTo(CAL.seat.x, 125, true);                                        // 1 從右側走進場，停在椅面
@@ -256,7 +256,7 @@
       await tween(c.p, { headPitch: 0.3 }, 260); await sleep(260); await tween(c.p, { headPitch: 0 }, 220);
       if (opts.onPose) opts.onPose('thumb');
       await tween(c.p, { rest: 1, headPitch: 0, legScale: 1 }, 1300);             // 5 趴下，下巴擱在前腳上
-      if (opts.onSay) opts.onSay('謝謝光臨！示範訂單已建立。');
+      if (opts.onSay) opts.onSay(opts.sayText || '謝謝光臨！');
       if (opts.onPose) opts.onPose('bow');
     }
     timeline();
