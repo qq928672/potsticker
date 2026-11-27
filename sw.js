@@ -20,7 +20,7 @@ self.addEventListener('fetch', e => {
   if (!sameOrigin && !CDN_HOSTS.includes(url.hostname)) return;
 
   if (req.mode === 'navigate') {
-    e.respondWith(fetch(req).then(res => { const copy = res.clone(); caches.open(VERSION).then(c => c.put('index.html', copy)); return res; })
+    e.respondWith(fetch(req, { cache: 'no-cache' }).then(res => { const copy = res.clone(); caches.open(VERSION).then(c => c.put('index.html', copy)); return res; })
       .catch(() => caches.match('index.html').then(r => r || caches.match('./'))));
     return;
   }
