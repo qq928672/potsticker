@@ -460,6 +460,12 @@ body.lock .keeper{visibility:hidden}
 .menu-close{position:absolute;top:8px;right:8px;width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:rgba(27,18,12,.82);color:var(--cream);box-shadow:0 0 0 1px rgba(244,232,210,.3)}
 .menu-close:hover{background:var(--wine)}
 .menu-close:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.hero-photo img{opacity:0;transition:opacity .9s ease}
+.hero-photo img.on{opacity:1}
+.hero-photo .dots{position:absolute;z-index:5;left:0;right:0;top:14px;left:16px;right:auto;display:flex;gap:10px}
+.hero-photo .dots button{width:10px;height:10px;padding:0;border-radius:50%;background:rgba(244,232,210,.45);box-shadow:0 0 0 1px rgba(0,0,0,.35);transition:background-color .2s,transform .2s}
+.hero-photo .dots button.on{background:var(--amber);transform:scale(1.3)}
+.hero-photo .dots button:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 </style>
 </head>
 <body id="top">
@@ -507,12 +513,15 @@ body.lock .keeper{visibility:hidden}
       </div>
       <figure class="hero-fig">
         <div class="lantern" id="lantern" aria-hidden="true"><span class="cord"></span><span class="cap"></span><span class="body">餃</span><span class="cap"></span><span class="tassel"></span></div>
-        <div class="ph hero-photo" data-alt="金黃焦脆的手工鍋貼"><img src="assets/hero.jpg" alt="深色陶盤上的手工鍋貼，側放露出金黃焦脆的底部" width="1500" height="1000" fetchpriority="high"><span class="steam" aria-hidden="true"><i></i><i></i><i></i></span></div>
-        <span class="sfx sfx-1" aria-hidden="true">滋滋…</span>
-        <span class="sfx sfx-2" aria-hidden="true">咔滋！</span>
-        <!-- 店貓迎賓：沿相框下緣行走，不攔截點擊 -->
+        <div class="ph hero-photo" id="heroSlides" role="group" aria-roledescription="輪播" aria-label="鍋貼照片輪播">
+          <img class="on" src="assets/hero.jpg" alt="深色陶盤上的手工鍋貼，側放露出金黃焦脆的底部" width="1500" height="1000" fetchpriority="high">
+          <img src="assets/pork.jpg" alt="陶盤上的煎鍋貼，切面露出豬肉與高麗菜內餡" width="1122" height="1402" loading="lazy">
+          <img src="assets/shrimp.jpg" alt="切開可見蝦肉的鮮蝦鍋貼" width="440" height="440" loading="lazy">
+          <img src="assets/mushroom.jpg" alt="香菇高麗菜鍋貼，旁邊擺著新鮮香菇與高麗菜" width="440" height="440" loading="lazy">
+          <div class="dots" role="tablist" aria-label="選擇照片"><button type="button" class="on" aria-label="第 1 張" aria-current="true"></button><button type="button" aria-label="第 2 張"></button><button type="button" aria-label="第 3 張"></button><button type="button" aria-label="第 4 張"></button></div>
+        </div>
         <div class="cat-layer" id="heroCat" aria-hidden="true"></div>
-        <figcaption class="hero-cap"><span>鍋貼底部煎到焦脆。</span><button class="cat-replay" id="heroReplay" type="button">▶ 看店貓進場</button></figcaption>
+        <figcaption class="hero-cap"><span>招牌豬肉、鮮蝦、香菇鍋貼。</span><button class="cat-replay" id="heroReplay" type="button">▶ 看店貓進場</button></figcaption>
       </figure>
     </div>
   </section>
@@ -1545,6 +1554,20 @@ document.addEventListener('DOMContentLoaded', icons);
 <div class="menu-modal" id="menuModal" role="dialog" aria-modal="true" aria-label="菜單" hidden>
   <div class="menu-box"><button class="menu-close" id="menuClose" type="button" aria-label="關閉菜單"><span aria-hidden="true" style="font-size:1.2rem;line-height:1">✕</span></button><img src="assets/hero-poster.jpg" alt="鍋貼品牌社群行銷菜單海報，右側為夾起的煎鍋貼特寫，左側列出開胃菜、主餐、加點、飲料、甜點" width="640" height="800" loading="lazy"></div>
 </div>
+<script>
+(function(){
+  var box=document.getElementById('heroSlides'); if(!box) return;
+  var imgs=box.querySelectorAll('img'), dots=box.querySelectorAll('.dots button'), i=0, t;
+  function go(n){ i=(n+imgs.length)%imgs.length;
+    imgs.forEach(function(el,k){el.classList.toggle('on',k===i)});
+    dots.forEach(function(d,k){d.classList.toggle('on',k===i); d.setAttribute('aria-current',k===i?'true':'false')}); }
+  function start(){ stop(); t=setInterval(function(){go(i+1)},4500); }
+  function stop(){ clearInterval(t); }
+  dots.forEach(function(d,k){ d.addEventListener('click',function(){go(k);start();}); });
+  box.addEventListener('mouseenter',stop); box.addEventListener('mouseleave',start);
+  start();
+})();
+</script>
 <script>
 (function(){
   var m=document.getElementById('menuModal'),o=document.getElementById('menuOpen'),c=document.getElementById('menuClose');
