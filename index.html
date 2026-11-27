@@ -1304,7 +1304,7 @@ class ShopCat {
         if (!this.alive) return res();
         const t = Math.min(1, (now - t0) / ms), e = ease(t);
         this.place(x0 + (x1 - x0) * e, g0 + (g1 - g0) * e);
-        this.show(frames[Math.floor((now - t0) / 1000 * fps) % frames.length]);
+        this.show(frames[Math.max(0, Math.floor((now - t0) / 1000 * fps)) % frames.length]);
         if (t < 1) requestAnimationFrame(tick); else res();
       };
       requestAnimationFrame(tick);
