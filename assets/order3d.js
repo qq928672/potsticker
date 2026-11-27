@@ -53,7 +53,7 @@
   }
   function blobTexture() {
     var c = document.createElement('canvas'); c.width = c.height = 128; var g = c.getContext('2d');
-    var r = g.createRadialGradient(64, 64, 4, 64, 64, 62); r.addColorStop(0, 'rgba(18,5,0,.85)'); r.addColorStop(1, 'rgba(18,5,0,0)');
+    var r = g.createRadialGradient(64, 64, 4, 64, 64, 62); r.addColorStop(0, 'rgba(10,2,0,1)'); r.addColorStop(0.55, 'rgba(10,2,0,.55)'); r.addColorStop(1, 'rgba(10,2,0,0)');
     g.fillStyle = r; g.fillRect(0, 0, 128, 128);
     var t = new T.CanvasTexture(c); t.encoding = T.sRGBEncoding; return t;
   }
@@ -73,12 +73,12 @@
     // 酒紅店服：披在背上與兩側，下緣米白滾邊、背上圓形家紋、側邊蝴蝶結
     var vest = mesh(new T.SphereGeometry(0.205, 28, 12, 0, Math.PI * 2, 0, 1.28), maroon, -0.02, 0.335, 0, root); vest.scale.set(1.5, 0.98, 0.94);
     var hem = mesh(new T.SphereGeometry(0.207, 28, 4, 0, Math.PI * 2, 1.26, 0.07), trim, -0.02, 0.335, 0, root); hem.scale.set(1.5, 0.98, 0.94);
-    var crest = mesh(new T.CylinderGeometry(0.052, 0.052, 0.006, 20), trim, -0.02, 0.538, 0, root);
-    mesh(new T.CylinderGeometry(0.034, 0.034, 0.008, 20), maroon, -0.02, 0.541, 0, root);
+    var crest = mesh(new T.CylinderGeometry(0.052, 0.052, 0.006, 20), trim, -0.02, 0.548, 0, root);
+    mesh(new T.CylinderGeometry(0.034, 0.034, 0.008, 20), maroon, -0.02, 0.552, 0, root);
     [-1, 1].forEach(function (s) {
-      mesh(new T.BoxGeometry(0.05, 0.04, 0.012), trim, 0.06, 0.33, s * 0.19, root).rotation.z = 0.3;
-      mesh(new T.BoxGeometry(0.05, 0.04, 0.012), trim, 0.1, 0.31, s * 0.188, root).rotation.z = -0.3;
-      mesh(new T.BoxGeometry(0.03, 0.12, 0.012), trim, 0.08, 0.3, s * 0.19, root);
+      mesh(new T.BoxGeometry(0.05, 0.04, 0.012), trim, 0.06, 0.33, s * 0.205, root).rotation.z = 0.3;
+      mesh(new T.BoxGeometry(0.05, 0.04, 0.012), trim, 0.1, 0.31, s * 0.205, root).rotation.z = -0.3;
+      mesh(new T.BoxGeometry(0.03, 0.12, 0.012), trim, 0.08, 0.3, s * 0.205, root);
     });
     // 頭：奶油底、深棕面罩、白色鼻樑與嘴周、深棕耳朵、藍眼
     var head = new T.Group(); head.position.set(0.37, 0.5, 0); root.add(head);
@@ -129,8 +129,9 @@
     m.legs[0].rotation.z = fl * (1 - r) + restF * r; m.legs[1].rotation.z = fr * (1 - r) + restF * r;
     m.legs[2].rotation.z = rl * (1 - r) + restR * r; m.legs[3].rotation.z = rr * (1 - r) + restR * r;
     m.legs.forEach(function (l, i) {
-      var s = (i < 2) ? sy * (1 - r * 0.25) : sy * (1 - r * 0.6);
-      l.scale.y = s; l.position.y = 0.23 - (i < 2 ? 0.11 : 0.15) * r;
+      var s = (i < 2) ? sy * (1 - r * 0.2) : sy * (1 - r * 0.97);
+      l.scale.y = Math.max(0.02, s); l.position.y = 0.23 - (i < 2 ? 0.03 : 0.15) * r; l.visible = i < 2 || r < 0.5;
+      if (i < 2) l.position.x = 0.2 + r * 0.1;
     });
     var drop = -0.23 * (1 - sy) - 0.15 * r;
     var bob = Math.abs(Math.sin(c.phase)) * 0.014 * walk;
@@ -153,8 +154,8 @@
     m.tilt.rotation.z = c.tilt;
     m.yawG.rotation.y = c.yaw;
     var b = m.blob, air = Math.min(1, c.h / 110);
-    b.position.set(c.x, -(c.gy != null ? c.gy : c.y), -1); b.scale.set(1.1 * s, 0.32 * s, 1); b.rotation.z = c.tilt;
-    b.material.opacity = 0.85 * (1 - air * 0.8); b.scale.x *= 1 - air * 0.15;
+    b.position.set(c.x, -(c.gy != null ? c.gy : c.y) - 0.03 * s, -1); b.scale.set(1.25 * s, 0.4 * s, 1); b.rotation.z = c.tilt;
+    b.material.opacity = 1 - air * 0.75; b.scale.x *= 1 - air * 0.15;
   }
 
   function newPose() { return { legF: 0, legR: 0, legScale: 1, walk: 0, pitch: 0, lift: 0, headFwd: 0, headPitch: 0, tailLift: 0, rest: 0, blink: 0 }; }
