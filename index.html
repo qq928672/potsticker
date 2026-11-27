@@ -113,20 +113,19 @@ section[id],footer[id]{scroll-margin-top:calc(var(--hdr) + 12px)}
 .hero-cta .tlink{color:var(--cream)}
 .hero-fig{position:relative}
 /* 鍋貼照片：粗黑相框，下緣加厚當作店貓的走道 */
-.hero-photo{aspect-ratio:4/5;max-width:520px;margin-inline:auto;border:8px solid #120B07;border-bottom-width:14px;border-radius:3px;box-shadow:0 0 0 1px rgba(255,210,150,.14),0 28px 60px -24px #000,0 0 60px -20px rgba(242,166,74,.45)}
-.hero-photo img{object-position:50% 50%}
+.hero-photo{aspect-ratio:4/3.1;border:8px solid #120B07;border-bottom-width:14px;border-radius:3px;box-shadow:0 0 0 1px rgba(255,210,150,.14),0 28px 60px -24px #000,0 0 60px -20px rgba(242,166,74,.45)}
+.hero-photo img{object-position:50% 56%}
 .hero-fig figcaption,.cap{margin-top:10px;font-size:.76rem;color:var(--muted)}
 .hero-fig figcaption{text-align:left}
 .sfx{position:absolute;z-index:4;pointer-events:none;font:700 clamp(1.5rem,4.6vw,2.4rem)/1 var(--hand);color:#FFE2B0;text-shadow:0 2px 0 #3A1E10,0 0 18px rgba(242,166,74,.8)}
 .sfx-1{left:4%;top:7%;transform:rotate(-10deg)}
 .sfx-2{right:-6px;bottom:44%;transform:rotate(8deg)}
 @media(min-width:768px){.sfx-2{bottom:30%}}
-.hero-fig .sfx{display:none}
 .burst{display:none}
 @media(min-width:768px){
   .hero{padding-block:72px 120px}
   .hero-grid{grid-template-columns:5fr 6fr;gap:64px;align-items:center}
-  .hero-photo{width:min(100%,500px)}
+  .hero-photo{aspect-ratio:auto;height:min(46vw,500px)}
 }
 
 /* ---------- 店貓圖層（不攔截點擊） ---------- */
@@ -454,6 +453,13 @@ body.lock .keeper{visibility:hidden}
 .book-fab:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
 .book-fab .icon{width:20px;height:20px}
 @media (max-width:480px){.book-fab{right:12px;padding:0 16px}}
+.menu-modal{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(10,6,3,.78)}
+.menu-modal[hidden]{display:none}
+.menu-box{position:relative;max-height:100%;overflow-y:auto;border-radius:4px;box-shadow:0 30px 70px -20px #000;animation:fadein .2s ease both;background:var(--paper2)}
+.menu-box img{display:block;width:auto;max-width:100%;height:auto;max-height:calc(100vh - 32px);margin-inline:auto}
+.menu-close{position:absolute;top:8px;right:8px;width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:rgba(27,18,12,.82);color:var(--cream);box-shadow:0 0 0 1px rgba(244,232,210,.3)}
+.menu-close:hover{background:var(--wine)}
+.menu-close:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 </style>
 </head>
 <body id="top">
@@ -495,12 +501,13 @@ body.lock .keeper{visibility:hidden}
         <p class="lead">從一盤酥脆的鍋貼開場，慢慢吃完一餐。<br>在有居酒屋氣氛的小店，和朋友好好聚一聚。</p>
         <div class="hero-cta">
           <a class="btn btn-primary" href="#order">線上點餐 <span class="arr" aria-hidden="true">→</span></a>
+          <button class="btn btn-ghost" id="menuOpen" type="button" aria-haspopup="dialog"><i data-lucide="book-open" class="icon"></i>查看菜單</button>
           <a class="tlink" href="#stores">探索門市</a>
         </div>
       </div>
       <figure class="hero-fig">
         <div class="lantern" id="lantern" aria-hidden="true"><span class="cord"></span><span class="cap"></span><span class="body">餃</span><span class="cap"></span><span class="tassel"></span></div>
-        <div class="ph hero-photo" data-alt="鍋貼品牌社群行銷菜單海報"><img src="assets/hero-poster.jpg" alt="鍋貼品牌社群行銷菜單海報，右側為夾起的煎鍋貼特寫，左側列出開胃菜、主餐、加點、飲料、甜點" width="640" height="800" fetchpriority="high"><span class="steam" aria-hidden="true"><i></i><i></i><i></i></span></div>
+        <div class="ph hero-photo" data-alt="金黃焦脆的手工鍋貼"><img src="assets/hero.jpg" alt="深色陶盤上的手工鍋貼，側放露出金黃焦脆的底部" width="1500" height="1000" fetchpriority="high"><span class="steam" aria-hidden="true"><i></i><i></i><i></i></span></div>
         <span class="sfx sfx-1" aria-hidden="true">滋滋…</span>
         <span class="sfx sfx-2" aria-hidden="true">咔滋！</span>
         <!-- 店貓迎賓：沿相框下緣行走，不攔截點擊 -->
@@ -1534,6 +1541,20 @@ $('modal').addEventListener('keydown', e => { if (e.key === 'Escape') { e.stopPr
 renderTabs(); renderMenu(); renderStore(); renderStatic(0); updateCtrl(); renderCart();
 window.addEventListener('load', icons);
 document.addEventListener('DOMContentLoaded', icons);
+</script>
+<div class="menu-modal" id="menuModal" role="dialog" aria-modal="true" aria-label="菜單" hidden>
+  <div class="menu-box"><button class="menu-close" id="menuClose" type="button" aria-label="關閉菜單"><span aria-hidden="true" style="font-size:1.2rem;line-height:1">✕</span></button><img src="assets/hero-poster.jpg" alt="鍋貼品牌社群行銷菜單海報，右側為夾起的煎鍋貼特寫，左側列出開胃菜、主餐、加點、飲料、甜點" width="640" height="800" loading="lazy"></div>
+</div>
+<script>
+(function(){
+  var m=document.getElementById('menuModal'),o=document.getElementById('menuOpen'),c=document.getElementById('menuClose');
+  if(!m||!o)return;
+  function open(){m.hidden=false;document.body.classList.add('lock');c.focus();}
+  function close(){m.hidden=true;document.body.classList.remove('lock');o.focus();}
+  o.addEventListener('click',open);c.addEventListener('click',close);
+  m.addEventListener('click',function(e){if(e.target===m)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden)close();});
+})();
 </script>
 <a class="book-fab" href="https://calendar.app.google/Um3pydqBLVJejtHQ9" target="_blank" rel="noopener noreferrer" aria-label="預約訂位（另開新視窗）"><i data-lucide="calendar-check" class="icon"></i><span>預約</span></a>
 </body>
