@@ -443,7 +443,7 @@ body.lock .keeper{visibility:hidden}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .lantern,.steam i{animation:none!important}
-  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+  :where(*,*::before,*::after):not(.cat-layer *){transition-duration:.01ms!important;animation-duration:.01ms!important}
   .btn-primary:hover .arr{transform:none}
   .drawer{transition:none}
 }
@@ -1325,7 +1325,6 @@ async function runHeroCat(force = false){
   if (heroCat) heroCat.stop();
   const G = heroGeom(), P = heroPlan(G);
   heroCat = new ShopCat($('heroCat'), G.w);
-  if (reduced.matches && !force) { heroFinal = true; placeHeroFinal(); return; }
   heroCat.el.classList.add('enter'); heroCat.place(P.nxIn, P.floor); heroCat.show('walk1');
   requestAnimationFrame(() => heroCat.el.classList.remove('enter'));
   const walkMs = Math.max(700, (P.nxL - P.nxS) / (G.mobile ? 65 : 85) * 1000);
@@ -1463,7 +1462,7 @@ $('sceneToggle').addEventListener('click', () => {
 if ('IntersectionObserver' in window) {
   new IntersectionObserver(es => {
     sceneVisible = es[es.length - 1].isIntersecting;
-    if (sceneVisible && !scenePlaying && !sceneUserPaused && !reduced.matches) scenePlay();
+    if (sceneVisible && !scenePlaying && !sceneUserPaused) scenePlay();
     else if (!sceneVisible && scenePlaying) { scenePlaying = false; if (sceneCat) sceneCat.stop(); sceneToken++; updateSceneBtn(); }
   }, { threshold: 0.35 }).observe($('sceneStage'));
 }
@@ -1476,7 +1475,6 @@ function runDoneCat(){
   const w = SW < 420 ? 92 : 112, cat = new ShopCat(layer, w);
   const ledge = SH - 34 - 12 + 2, floor = SH - 6;
   const nxL = SW * 0.08 + w * 0.04, nx0 = Math.min(SW - cat.body - 8, nxL + SW * 0.42);
-  if (reduced.matches) { cat.place(nxL, ledge); cat.show('jump4'); return; }
   cat.el.classList.add('enter'); cat.place(nx0, floor); cat.show('jump1');
   requestAnimationFrame(() => cat.el.classList.remove('enter'));
   catReady.then(() => cat.play([{ ms: 200, frames: ['jump1'] }, ...jumpSteps(nx0, floor, nxL, ledge, true)])).then(() => { if (cat.alive) cat.show('jump4'); });
