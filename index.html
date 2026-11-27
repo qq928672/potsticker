@@ -113,19 +113,20 @@ section[id],footer[id]{scroll-margin-top:calc(var(--hdr) + 12px)}
 .hero-cta .tlink{color:var(--cream)}
 .hero-fig{position:relative}
 /* 鍋貼照片：粗黑相框，下緣加厚當作店貓的走道 */
-.hero-photo{aspect-ratio:4/3.1;border:8px solid #120B07;border-bottom-width:14px;border-radius:3px;box-shadow:0 0 0 1px rgba(255,210,150,.14),0 28px 60px -24px #000,0 0 60px -20px rgba(242,166,74,.45)}
-.hero-photo img{object-position:50% 56%}
+.hero-photo{aspect-ratio:4/5;max-width:520px;margin-inline:auto;border:8px solid #120B07;border-bottom-width:14px;border-radius:3px;box-shadow:0 0 0 1px rgba(255,210,150,.14),0 28px 60px -24px #000,0 0 60px -20px rgba(242,166,74,.45)}
+.hero-photo img{object-position:50% 50%}
 .hero-fig figcaption,.cap{margin-top:10px;font-size:.76rem;color:var(--muted)}
 .hero-fig figcaption{text-align:left}
 .sfx{position:absolute;z-index:4;pointer-events:none;font:700 clamp(1.5rem,4.6vw,2.4rem)/1 var(--hand);color:#FFE2B0;text-shadow:0 2px 0 #3A1E10,0 0 18px rgba(242,166,74,.8)}
 .sfx-1{left:4%;top:7%;transform:rotate(-10deg)}
 .sfx-2{right:-6px;bottom:44%;transform:rotate(8deg)}
 @media(min-width:768px){.sfx-2{bottom:30%}}
+.hero-fig .sfx{display:none}
 .burst{display:none}
 @media(min-width:768px){
   .hero{padding-block:72px 120px}
   .hero-grid{grid-template-columns:5fr 6fr;gap:64px;align-items:center}
-  .hero-photo{aspect-ratio:auto;height:min(46vw,500px)}
+  .hero-photo{width:min(100%,500px)}
 }
 
 /* ---------- 店貓圖層（不攔截點擊） ---------- */
@@ -499,7 +500,7 @@ body.lock .keeper{visibility:hidden}
       </div>
       <figure class="hero-fig">
         <div class="lantern" id="lantern" aria-hidden="true"><span class="cord"></span><span class="cap"></span><span class="body">餃</span><span class="cap"></span><span class="tassel"></span></div>
-        <div class="ph hero-photo" data-alt="金黃焦脆的手工鍋貼"><img src="assets/hero.jpg" alt="深色陶盤上的手工鍋貼，側放露出金黃焦脆的底部" width="1500" height="1000" fetchpriority="high"><span class="steam" aria-hidden="true"><i></i><i></i><i></i></span></div>
+        <div class="ph hero-photo" data-alt="鍋貼品牌社群行銷菜單海報"><img src="assets/hero-poster.jpg" alt="鍋貼品牌社群行銷菜單海報，右側為夾起的煎鍋貼特寫，左側列出開胃菜、主餐、加點、飲料、甜點" width="640" height="800" fetchpriority="high"><span class="steam" aria-hidden="true"><i></i><i></i><i></i></span></div>
         <span class="sfx sfx-1" aria-hidden="true">滋滋…</span>
         <span class="sfx sfx-2" aria-hidden="true">咔滋！</span>
         <!-- 店貓迎賓：沿相框下緣行走，不攔截點擊 -->
