@@ -1048,7 +1048,7 @@ function rules(){
 const METHOD = { dine:'內用', takeout:'外帶', delivery:'宅配' };
 const SHIP_FEE = 120, FREE_SHIP = 1000; // 宅配運費；單筆滿額免運（顯示用，實際金額以試算表「設定」「商品」分頁為準）
 /* 訂單接收端：貼上 Google Apps Script 網頁應用程式網址（結尾 /exec）。留空 = 維持示範模式，不送出任何資料。 */
-const ORDER_ENDPOINT = '';
+const ORDER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxJFYx_O4OKx0V1SZk2Cx9q28Rc5IcB7RTT-7jsyFL0fVfP8lkIgHZfRUyxf5w1Xd2K/exec';
 const LIVE = !!ORDER_ENDPOINT;
 if (LIVE) { const f = document.getElementById('faqOrder'); if (f) f.textContent = '在「線上點餐」選擇分類，按「加入購物車」，再到購物車前往結帳，填寫聯絡資料後送出訂單。本站不線上收款，付款方式由店家與你聯絡確認。'; }
 const newClientId = () => (crypto.randomUUID ? crypto.randomUUID() : 'c-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
