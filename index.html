@@ -355,6 +355,7 @@ main{counter-reset:ch}
 .modal-body{padding:20px 20px 26px}
 .sum{margin-bottom:22px;border:1px solid var(--line-ink);border-radius:4px;background:#fff}
 .sum li{display:flex;justify-content:space-between;gap:12px;padding:8px 14px;border-bottom:1px dashed var(--line-ink);font-size:.92rem}
+.sum li.hint{font-size:.8rem;color:var(--muted)}
 .sum li.t{border:0;font-weight:700;background:var(--paper)}
 .fset{margin-bottom:16px}
 .fset legend,.fld label{display:block;margin-bottom:6px;font-weight:700;font-size:.92rem}
@@ -490,7 +491,6 @@ body.lock .keeper{visibility:hidden}
           <a class="btn btn-primary" href="#order">線上點餐 <span class="arr" aria-hidden="true">→</span></a>
           <a class="tlink" href="#stores">探索門市</a>
         </div>
-        <p class="note" style="margin-top:22px">本站菜單、價格與門市皆為示例資料。</p>
       </div>
       <figure class="hero-fig">
         <div class="lantern" id="lantern" aria-hidden="true"><span class="cord"></span><span class="cap"></span><span class="body">餃</span><span class="cap"></span><span class="tassel"></span></div>
@@ -499,7 +499,7 @@ body.lock .keeper{visibility:hidden}
         <span class="sfx sfx-2" aria-hidden="true">咔滋！</span>
         <!-- 店貓迎賓：沿相框下緣行走，不攔截點擊 -->
         <div class="cat-layer" id="heroCat" aria-hidden="true"></div>
-        <figcaption class="hero-cap"><span>鍋貼底部煎到焦脆。示意圖</span><button class="cat-replay" id="heroReplay" type="button">▶ 看店貓進場</button></figcaption>
+        <figcaption class="hero-cap"><span>鍋貼底部煎到焦脆。</span><button class="cat-replay" id="heroReplay" type="button">▶ 看店貓進場</button></figcaption>
       </figure>
     </div>
   </section>
@@ -515,11 +515,11 @@ body.lock .keeper{visibility:hidden}
         </div>
         <figure class="story-main">
           <div class="ph" data-alt="料理人在鐵煎台上鏟起鍋貼"><img src="assets/story.jpg" alt="料理人用鍋鏟從鐵煎台鏟起一排金黃鍋貼" width="1500" height="1000" loading="lazy"></div>
-          <figcaption class="cap">煎台上的鍋貼。示意圖</figcaption>
+          <figcaption class="cap">煎台上的鍋貼。</figcaption>
         </figure>
         <figure class="story-side">
           <div class="ph" data-alt="切開的鍋貼內餡"><img src="assets/pork.jpg" alt="陶盤上的煎鍋貼，切面露出豬肉與高麗菜內餡" width="1122" height="1402" loading="lazy"></div>
-          <figcaption class="cap">切面細節。示意圖</figcaption>
+          <figcaption class="cap">切面細節。</figcaption>
         </figure>
       </div>
       <div class="facts">
@@ -540,7 +540,7 @@ body.lock .keeper{visibility:hidden}
           <!-- 店貓調色：降低藍色、提高暖色，配合場景的琥珀燈光 -->
           <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="warmCat" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0.93 0 0 0 0.03  0 0.80 0 0 0  0 0 0.62 0 -0.02  0 0 0 1 0"/></filter></svg>
         </div>
-        <figcaption class="cap"><span>店內一景：店長顧著煎台，店貓在吧檯上來回巡視，累了就趴下睡一會兒。示意圖</span><button class="cat-replay" id="sceneToggle" type="button" aria-pressed="false">❚❚ 暫停店內動態</button></figcaption>
+        <figcaption class="cap"><span>店內一景：店長顧著煎台，店貓在吧檯上來回巡視，累了就趴下睡一會兒。</span><button class="cat-replay" id="sceneToggle" type="button" aria-pressed="false">❚❚ 暫停店內動態</button></figcaption>
       </figure>
     </div>
   </section>
@@ -567,7 +567,7 @@ body.lock .keeper{visibility:hidden}
   <!-- 4. 線上點餐 -->
   <section class="sec" id="order" aria-labelledby="order-h">
     <div class="wrap">
-      <div class="sec-head"><h2 id="order-h">線上點餐</h2><p class="note">示例菜單與價格，正式內容待店家提供。</p></div>
+      <div class="sec-head"><h2 id="order-h">線上點餐</h2></div>
       <div class="tabs" id="tabs" role="tablist" aria-label="餐點分類"></div>
       <div class="grid-prod" id="menuPanel" role="tabpanel" tabindex="0"></div>
     </div>
@@ -577,13 +577,13 @@ body.lock .keeper{visibility:hidden}
   <section class="sec" id="gift" aria-labelledby="gift-h">
     <div class="wrap gift-grid">
       <figure>
-        <div class="ph gift-photo" data-alt="冷凍鍋貼禮盒"><img src="assets/shrimp.jpg" alt="切開可見蝦肉的鮮蝦鍋貼" width="440" height="440" loading="lazy" style="object-position:center"><span class="tag">示意圖</span></div>
+        <div class="ph gift-photo" data-alt="冷凍鍋貼禮盒"><img src="assets/shrimp.jpg" alt="切開可見蝦肉的鮮蝦鍋貼" width="440" height="440" loading="lazy" style="object-position:center"></div>
       </figure>
       <div>
         <h2 id="gift-h">把鍋貼帶回家</h2>
         <p style="margin:10px 0 18px;color:var(--muted)">家庭聚餐或送禮，都可以選冷凍禮盒。保存方式與烹調時間，請依產品包裝標示。</p>
         <ul class="gift-list" id="giftList"></ul>
-        <p class="note" style="margin-top:12px">冷凍商品可選外帶或宅配，與現做餐點同車時僅提供外帶。</p>
+        <p class="note" style="margin-top:12px">冷凍商品可選外帶或宅配（宅配運費 NT$120，滿 NT$1,000 免運），與現做餐點同車時僅提供外帶。</p>
       </div>
     </div>
   </section>
@@ -591,7 +591,7 @@ body.lock .keeper{visibility:hidden}
   <!-- 6. 門市 -->
   <section class="sec" id="stores" aria-labelledby="st-h">
     <div class="wrap">
-      <div class="sec-head"><h2 id="st-h">門市據點</h2><p class="note">以下門市資料為示例。</p></div>
+      <div class="sec-head"><h2 id="st-h">門市據點</h2></div>
       <div class="store-tabs" id="storeTabs" role="group" aria-label="選擇門市"></div>
       <div class="store-grid">
         <div class="store-info" aria-live="polite">
@@ -601,7 +601,6 @@ body.lock .keeper{visibility:hidden}
         <div class="map" role="img" aria-label="示意地圖，非實際位置">
           <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="300" fill="#241c16"/><path d="M-10 90 L410 130 M60 -10 L120 310 M250 -10 L300 310 M-10 220 L410 200" stroke="#4a3a2d" stroke-width="14" fill="none"/><path d="M-10 90 L410 130 M60 -10 L120 310 M250 -10 L300 310 M-10 220 L410 200" stroke="#33281f" stroke-width="10" fill="none"/><rect x="150" y="150" width="50" height="40" fill="#30251d"/><rect x="310" y="40" width="60" height="50" fill="#30251d"/><rect x="10" y="140" width="40" height="50" fill="#30251d"/></svg>
           <div class="pin"><span id="pinName">旗艦店</span><i data-lucide="map-pin" class="icon" style="color:var(--accent);width:28px;height:28px"></i></div>
-          <span class="tag">示意畫面</span>
         </div>
       </div>
     </div>
@@ -613,9 +612,9 @@ body.lock .keeper{visibility:hidden}
       <div class="sec-head"><h2 id="faq-h">常見問題</h2></div>
       <div class="faq">
         <details><summary>怎麼線上點餐？</summary><p>在「線上點餐」選擇分類，按「加入購物車」，再到購物車前往結帳。目前為模擬訂單，不會真的送出。</p></details>
-        <details><summary>可以內用、外帶或宅配嗎？</summary><p>示範規則：現做餐點可內用或外帶；冷凍商品可外帶或宅配；兩者同車時僅提供外帶。正式規則<span class="pending">待確認</span></p></details>
+        <details><summary>可以內用、外帶或宅配嗎？</summary><p>現做餐點可內用或外帶；冷凍商品可外帶或宅配；兩者同車時僅提供外帶。</p></details>
         <details><summary>冷凍鍋貼怎麼保存與煎煮？</summary><p>請依產品包裝標示。保存期限與烹調時間<span class="pending">待確認</span></p></details>
-        <details><summary>宅配的運費與到貨時間？</summary><p>運費、可配送地區與到貨時間<span class="pending">待確認</span></p></details>
+        <details><summary>宅配的運費與到貨時間？</summary><p>宅配運費 NT$120，單筆滿 NT$1,000 免運費。可配送地區與到貨時間<span class="pending">待確認</span></p></details>
         <details><summary>需要預約座位嗎？</summary><p>預約規則與取消方式<span class="pending">待確認</span>，請先與門市聯絡。</p></details>
       </div>
     </div>
@@ -633,8 +632,8 @@ body.lock .keeper{visibility:hidden}
       <div>
         <h3>聯絡我們</h3>
         <ul>
-          <li>電話：02-0000-0000（示例）</li>
-          <li>Email：hello@example.com（示例）</li>
+          <li>電話：02-0000-0000</li>
+          <li>Email：hello@example.com</li>
         </ul>
         <div class="social" id="social"></div>
       </div>
@@ -722,8 +721,8 @@ const PAGES = [
 
 // 門市（示例）。mapUrl／uberUrl／pandaUrl 提供 https 網址後才會啟用連結
 const STORES = [
-  { id:'flag', name:'旗艦店', addr:'台北市中正區示例路 1 號（示例）', tel:'02-0000-0001', hours:'11:30–14:30、17:30–21:30（示例）', mapUrl:'', uberUrl:'', pandaUrl:'' },
-  { id:'xinyi', name:'信義店', addr:'台北市信義區示例街 88 號（示例）', tel:'02-0000-0002', hours:'11:00–21:00（示例）', mapUrl:'', uberUrl:'', pandaUrl:'' },
+  { id:'flag', name:'旗艦店', addr:'台北市中正區示例路 1 號', tel:'02-0000-0001', hours:'11:30–14:30、17:30–21:30', mapUrl:'', uberUrl:'', pandaUrl:'' },
+  { id:'xinyi', name:'信義店', addr:'台北市信義區示例街 88 號', tel:'02-0000-0002', hours:'11:00–21:00', mapUrl:'', uberUrl:'', pandaUrl:'' },
 ];
 
 // 社群與政策連結；未提供顯示「待提供」
@@ -859,8 +858,8 @@ $('drBody').addEventListener('click', e => {
 let curCat = 'pot';
 function productCard(p){
   const media = p.img
-    ? `<div class="ph" data-alt="${esc(p.name)}"><img src="${p.img}" alt="${esc(p.name)}${p.demo ? '（示意照）' : ''}" loading="lazy" width="600" height="450" style="object-position:${p.pos || 'center'}">${p.demo ? '<span class="tag">示意圖</span>' : ''}</div>`
-    : `<div class="ph" role="img" aria-label="${esc(p.name)}，暫無照片"><span class="glyph" aria-hidden="true">${p.glyph}</span><span class="tag">示意圖</span></div>`;
+    ? `<div class="ph" data-alt="${esc(p.name)}"><img src="${p.img}" alt="${esc(p.name)}" loading="lazy" width="600" height="450" style="object-position:${p.pos || 'center'}"></div>`
+    : `<div class="ph" role="img" aria-label="${esc(p.name)}"><span class="glyph" aria-hidden="true">${p.glyph}</span></div>`;
   return `<article class="prod">${media}
     <h3>${esc(p.name)}${p.tag ? `<span class="chiptag">${esc(p.tag)}</span>` : ''}</h3>
     <p class="desc">${esc(p.desc)}</p>
@@ -902,7 +901,7 @@ let cur = 0, flipping = false;
 const desktopMQ = matchMedia('(min-width:768px)');
 const paneL = $('paneL'), paneR = $('paneR'), spread = $('spread');
 
-const photoHTML = p => `<div class="ph mag-photo" data-alt="${esc(p.alt)}"><img src="${p.img}" alt="${esc(p.alt)}" style="object-position:${p.pos}" loading="lazy">${p.demo ? '<span class="tag">示意圖</span>' : ''}</div>`;
+const photoHTML = p => `<div class="ph mag-photo" data-alt="${esc(p.alt)}"><img src="${p.img}" alt="${esc(p.alt)}" style="object-position:${p.pos}" loading="lazy"></div>`;
 const textHTML = (p, i, live) => `<div class="mag-text"><p class="no">${i + 1} / ${PAGES.length}</p><h3>${esc(p.title)}</h3><p class="body">${esc(p.body)}</p>${live ? `<a class="tlink" href="#" data-act="${p.action}">${esc(p.cta)} →</a>` : `<span class="tlink">${esc(p.cta)} →</span>`}</div>`;
 const bothHTML = (p, i, live) => `<div class="both">${photoHTML(p)}${textHTML(p, i, live)}</div>`;
 
@@ -981,7 +980,7 @@ function linkOrOff(url, label){ return isHttp(url) ? `<a class="btn btn-ghost" h
 function renderStore(){
   const s = STORES[curStore];
   $('storeTabs').innerHTML = STORES.map((x, i) => `<button class="pill" type="button" data-store="${i}" aria-pressed="${i === curStore}">${esc(x.name)}</button>`).join('');
-  $('storeInfo').innerHTML = `<div><dt>門市</dt><dd>${esc(s.name)}（示例）</dd></div><div><dt>地址</dt><dd>${esc(s.addr)}</dd></div><div><dt>電話</dt><dd>${esc(s.tel)}</dd></div><div><dt>營業時間</dt><dd>${esc(s.hours)}</dd></div>`;
+  $('storeInfo').innerHTML = `<div><dt>門市</dt><dd>${esc(s.name)}</dd></div><div><dt>地址</dt><dd>${esc(s.addr)}</dd></div><div><dt>電話</dt><dd>${esc(s.tel)}</dd></div><div><dt>營業時間</dt><dd>${esc(s.hours)}</dd></div>`;
   $('storeLinks').innerHTML = linkOrOff(s.mapUrl, '在 Google Maps 開啟') + linkOrOff(s.uberUrl, 'Uber Eats') + linkOrOff(s.pandaUrl, 'foodpanda');
   $('pinName').textContent = s.name;
   icons();
@@ -1016,15 +1015,25 @@ function rules(){
   return { opts:['dine','takeout'], note:'現做餐點可選內用或外帶。' };
 }
 const METHOD = { dine:'內用', takeout:'外帶', delivery:'宅配' };
+const SHIP_FEE = 120, FREE_SHIP = 1000; // 宅配運費；單筆滿額免運
+const shipFee = (mth, sub) => mth === 'delivery' && sub < FREE_SHIP ? SHIP_FEE : 0;
+function sumHTML(mth){
+  const sub = cartTotal(), fee = shipFee(mth, sub);
+  let h = cartItems().map(({p, qty}) => `<li><span>${esc(p.name)} × ${qty}</span><span>${money(p.price * qty)}</span></li>`).join('');
+  if (mth === 'delivery') {
+    h += `<li><span>運費</span><span>${fee ? money(fee) : '免運'}</span></li>`;
+    if (fee) h += `<li class="hint"><span>再買 ${money(FREE_SHIP - sub)} 即可免運</span><span></span></li>`;
+  }
+  return h + `<li class="t"><span>總金額</span><span>${money(sub + fee)}</span></li>`;
+}
 
 function openCheckout(){
   if (!cartItems().length) return;
   coOpener = $('checkoutBtn');
   closeDrawer(false);
   const r = rules();
-  const sum = cartItems().map(({p, qty}) => `<li><span>${esc(p.name)} × ${qty}</span><span>${money(p.price * qty)}</span></li>`).join('') + `<li class="t"><span>總金額</span><span>${money(cartTotal())}</span></li>`;
   $('coBody').innerHTML = `
-    <ul class="sum" aria-label="訂單商品">${sum}</ul>
+    <ul class="sum" id="coSum" aria-label="訂單商品" aria-live="polite"></ul>
     <form id="coForm" novalidate>
       <fieldset class="fset"><legend>取餐方式</legend>
         <p class="rule">${r.note}</p>
@@ -1032,7 +1041,7 @@ function openCheckout(){
       </fieldset>
       <div class="fld"><label for="f-name">姓名</label><input id="f-name" name="name" autocomplete="name" aria-describedby="e-name"><p class="err" id="e-name" hidden></p></div>
       <div class="fld"><label for="f-tel">手機或電話</label><input id="f-tel" name="tel" inputmode="tel" autocomplete="tel" placeholder="例如 0912345678" aria-describedby="e-tel"><p class="err" id="e-tel" hidden></p></div>
-      <div class="fld" id="w-store"><label for="f-store">取餐門市</label><select id="f-store" name="store" aria-describedby="e-store"><option value="">請選擇門市</option>${STORES.map(s => `<option value="${esc(s.name)}">${esc(s.name)}（示例）</option>`).join('')}</select><p class="err" id="e-store" hidden></p></div>
+      <div class="fld" id="w-store"><label for="f-store">取餐門市</label><select id="f-store" name="store" aria-describedby="e-store"><option value="">請選擇門市</option>${STORES.map(s => `<option value="${esc(s.name)}">${esc(s.name)}</option>`).join('')}</select><p class="err" id="e-store" hidden></p></div>
       <div class="fld" id="w-addr" hidden><label for="f-addr">收件地址</label><input id="f-addr" name="addr" autocomplete="street-address" aria-describedby="e-addr"><p class="err" id="e-addr" hidden></p></div>
       <p class="note" style="margin-bottom:14px">姓名、電話與地址僅用於這次結帳畫面，不會儲存或送出。</p>
       <button class="btn btn-primary" type="submit" style="width:100%">建立示範訂單 <span class="arr" aria-hidden="true">→</span></button>
@@ -1049,6 +1058,7 @@ const method = () => { const c = $('coForm').querySelector('input[name="method"]
 function syncMethod(){
   const del = method() === 'delivery';
   $('w-store').hidden = del; $('w-addr').hidden = !del;
+  $('coSum').innerHTML = sumHTML(method());
   ['store','addr'].forEach(k => setErr(k, '')); // 切換方式時清除不相關欄位的錯誤
 }
 function setErr(k, msg){
@@ -1067,7 +1077,7 @@ function submitCheckout(ev){
   if (del) setErr('addr', addr.length >= 6 ? '' : (bad.push('addr'), '請填寫完整收件地址。'));
   if (bad.length){ $('f-' + bad[0]).focus(); return; }
 
-  const items = cartItems(), total = cartTotal(), mth = method();
+  const mth = method(), doneSum = sumHTML(mth);
   const no = 'DEMO-' + Date.now().toString().slice(-6);
   justOrdered = name;
   $('coBody').innerHTML = `<div class="done" tabindex="-1" id="doneBox">
@@ -1076,7 +1086,7 @@ function submitCheckout(ev){
 
     <h3>示範訂單已建立</h3>
     <p class="note" style="margin-bottom:14px">這是模擬訂單，沒有實際送出或收款。編號 ${no}</p>
-    <ul class="sum">${items.map(({p, qty}) => `<li><span>${esc(p.name)} × ${qty}</span><span>${money(p.price * qty)}</span></li>`).join('')}<li class="t"><span>總金額</span><span>${money(total)}</span></li></ul>
+    <ul class="sum">${doneSum}</ul>
     <p>取餐方式：${METHOD[mth]}${del ? '' : '　門市：' + esc(store)}</p>
     ${del ? `<p>收件地址：${esc(addr)}</p>` : ''}
     <p>聯絡人：${esc(name)}　${esc(tel)}</p>
