@@ -448,6 +448,11 @@ body.lock .keeper{visibility:hidden}
   .btn-primary:hover .arr{transform:none}
   .drawer{transition:none}
 }
+.book-fab{position:fixed;z-index:54;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));display:inline-flex;align-items:center;gap:8px;min-height:52px;padding:0 20px;border-radius:999px;background:var(--wine);color:var(--cream);font-weight:700;font-size:.95rem;letter-spacing:.04em;box-shadow:0 10px 24px -8px #000,0 0 0 1px rgba(244,232,210,.25);transition:background-color .18s,transform .18s}
+.book-fab:hover{background:var(--wine-lt);transform:translateY(-2px)}
+.book-fab:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+.book-fab .icon{width:20px;height:20px}
+@media (max-width:480px){.book-fab{right:12px;padding:0 16px}}
 </style>
 </head>
 <body id="top">
@@ -1529,5 +1534,6 @@ renderTabs(); renderMenu(); renderStore(); renderStatic(0); updateCtrl(); render
 window.addEventListener('load', icons);
 document.addEventListener('DOMContentLoaded', icons);
 </script>
+<a class="book-fab" href="https://calendar.app.google/Um3pydqBLVJejtHQ9" target="_blank" rel="noopener noreferrer" aria-label="預約訂位（另開新視窗）"><i data-lucide="calendar-check" class="icon"></i><span>預約</span></a>
 </body>
 </html>
