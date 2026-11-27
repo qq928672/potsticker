@@ -448,6 +448,7 @@ body.lock .keeper{visibility:hidden}
 .done-scene .scene-bubble{left:30%;top:4%;max-width:46%}
 .cat-stage{position:relative;height:130px;margin:4px 0 14px;overflow:hidden;border-radius:4px;background:radial-gradient(ellipse 60% 90% at 30% 100%,rgba(242,166,74,.35),transparent 70%),linear-gradient(#3B2617,#2A1B11)}
 .cat-stage::before{content:"";position:absolute;left:8%;bottom:34px;width:46%;height:12px;border-radius:2px;background:linear-gradient(#7A5232,#5A3A22);box-shadow:0 6px 10px -4px #000}
+.cat-stage.live::after{content:"本日訂單"}
 .cat-stage::after{content:"本日示範訂單";position:absolute;left:8%;bottom:10px;width:46%;text-align:center;font:400 .78rem/1.4 var(--hand);color:var(--muted)}
 
 @media(prefers-reduced-motion:reduce){
@@ -1050,6 +1051,7 @@ const SHIP_FEE = 120, FREE_SHIP = 1000; // 宅配運費；單筆滿額免運（�
 /* 訂單接收端：貼上 Google Apps Script 網頁應用程式網址（結尾 /exec）。留空 = 維持示範模式，不送出任何資料。 */
 const ORDER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxJFYx_O4OKx0V1SZk2Cx9q28Rc5IcB7RTT-7jsyFL0fVfP8lkIgHZfRUyxf5w1Xd2K/exec';
 const LIVE = !!ORDER_ENDPOINT;
+const USE_3D_CAT = false; // 訂單完成畫面的店貓：false = 2D 動畫（木板），true = 3D 版（assets/order3d.js）
 if (LIVE) { const f = document.getElementById('faqOrder'); if (f) f.textContent = '在「線上點餐」選擇分類，按「加入購物車」，再到購物車前往結帳，填寫聯絡資料後送出訂單。本站不線上收款，付款方式由店家與你聯絡確認。'; }
 const newClientId = () => (crypto.randomUUID ? crypto.randomUUID() : 'c-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
 let orderClientId = '';
@@ -1073,7 +1075,7 @@ function sumHTML(mth, srv){
 
 function openCheckout(){
   if (!cartItems().length) return;
-  if (window.Order3D) Order3D.load();
+  if (USE_3D_CAT && window.Order3D) Order3D.load();
   orderClientId = newClientId();
   $('coStamp').hidden = LIVE;
   coOpener = $('checkoutBtn');
@@ -1143,7 +1145,7 @@ async function submitCheckout(ev){
     }
   }
   const doneSum = sumHTML(mth, srv);
-  const use3d = !!(window.Order3D && Order3D.ready3d);
+  const use3d = USE_3D_CAT && !!(window.Order3D && Order3D.ready3d);
   justOrdered = name;
   $('coBody').innerHTML = `<div class="done" tabindex="-1" id="doneBox">
     <span class="seal" aria-hidden="true">${LIVE ? '訂單<br>成立' : '示範<br>完成'}</span>
@@ -1152,7 +1154,7 @@ async function submitCheckout(ev){
       <div class="scene-keeper" id="doneKeeper" data-pose="greet"><img src="assets/keeper-greet.png" alt="" data-p="greet" class="on"><img src="assets/keeper-bow.png" alt="" data-p="bow"><img src="assets/keeper-offer.png" alt="" data-p="offer"><img src="assets/keeper-thumb.png" alt="" data-p="thumb"></div>
       <img class="scene-front" src="assets/izakaya.jpg" alt="" width="1600" height="900">
       <p class="scene-bubble" id="doneBubble" hidden></p>
-    </div>` : `<div class="cat-stage" id="doneCat" aria-hidden="true"><div class="cat-layer"></div></div>`}
+    </div>` : `<div class="cat-stage${LIVE ? ' live' : ''}" id="doneCat" aria-hidden="true"><div class="cat-layer"></div></div>`}
 
     <h3>${LIVE ? '訂單已送出' : '示範訂單已建立'}</h3>
     <p class="note" style="margin-bottom:14px">${LIVE ? `訂單已送給店家，編號 ${no}。本站不線上收款，付款方式由店家與你聯絡確認。` : `這是模擬訂單，沒有實際送出或收款。編號 ${no}`}</p>
