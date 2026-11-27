@@ -1,0 +1,1525 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="炙餃座，從鍋貼吃到高級料理。可線上點餐、翻閱餐點專題、選購冷凍禮盒與查詢門市（示範網站）。">
+<meta name="theme-color" content="#1B120C">
+<title>炙餃座｜從鍋貼吃到高級料理</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  /* Tailwind 色彩設定，與下方自訂 CSS 變數一致 */
+  /* 關閉 Tailwind 預設重置，避免覆蓋下方自訂樣式 */
+  if (window.tailwind) tailwind.config = { corePlugins: { preflight: false }, theme: { extend: { colors: { paper: '#F4E8D2', ink: '#2C1E15', accent: '#922F30', line: '#D6C3A4', amber: '#F2A64A', wood: '#3B2617' } } } };
+</script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js" defer></script>
+<style>
+/* =========================================================
+   炙餃座｜溫馨居酒屋風
+   深色木作、琥珀燈光、竹簾、和紙菜單與酒紅暖簾
+   ========================================================= */
+:root{
+  color-scheme:dark;
+  --bg:#1B120C; --bg2:#23170F; --wood:#3B2617; --wood2:#4A3020;
+  --cream:#F4E8D2; --muted:#CDB89B; --ink:#2C1E15; --ink-muted:#6A5546;
+  --paper:#F4E8D2; --paper2:#FBF4E6; --tan:#E7D7BC;
+  --amber:#F2A64A; --amber-soft:rgba(242,166,74,.16);
+  --wine:#922F30; --wine-dk:#7A2425; --wine-lt:#AE3E3D;
+  --line:rgba(244,232,210,.16); --line-ink:#D6C3A4;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --hand:"LXGW WenKai TC","Noto Serif TC",serif;
+  --hdr:68px;
+  --grain:repeating-linear-gradient(90deg,rgba(255,255,255,.018) 0 2px,transparent 2px 7px),repeating-linear-gradient(90deg,rgba(0,0,0,.08) 0 1px,transparent 1px 23px);
+  --blind:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 6px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--cream);font:400 1rem/1.85 var(--sans);overflow-x:hidden}
+h1,h2,h3,h4,p,figure,ul,ol,dl,dd,details,fieldset{margin:0;padding:0}
+ul,ol{list-style:none}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+[hidden]{display:none!important}
+section[id],footer[id]{scroll-margin-top:calc(var(--hdr) + 12px)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:fixed;z-index:100;left:8px;top:8px;padding:10px 16px;background:var(--cream);color:var(--ink);transform:translateY(-200%)}
+.skip:focus{transform:none}
+.wrap{width:min(100% - 40px,1180px);margin-inline:auto}
+.icon{width:20px;height:20px;stroke-width:1.9}
+
+/* ---------- 按鈕 ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:0 24px;border-radius:4px;font-weight:700;font-size:.95rem;letter-spacing:.04em;white-space:nowrap;transition:background-color .18s,transform .18s,box-shadow .18s,color .18s;-webkit-tap-highlight-color:transparent}
+.btn-primary{background:var(--wine);color:#FFF4E4;box-shadow:0 0 0 1px rgba(255,220,180,.12) inset,0 8px 22px -10px rgba(242,166,74,.55)}
+.btn-primary .arr{display:inline-block;transition:transform .18s}
+.btn-primary:hover{background:var(--wine-lt)}
+.btn-primary:hover .arr{transform:translateX(4px)}
+.btn:active{transform:translateY(1px) scale(.97)}
+.btn-ghost{border:1px solid rgba(244,232,210,.45);color:var(--cream)}
+.btn-ghost:hover{background:var(--amber-soft);border-color:var(--amber)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none}
+.btn-primary[disabled]:hover{background:var(--wine)}
+.tlink{position:relative;display:inline-flex;align-items:center;min-height:44px;font-weight:700}
+.tlink::after{content:"";position:absolute;left:0;right:0;bottom:9px;height:1px;background:currentColor;transform:scaleX(.55);transform-origin:left;transition:transform .2s}
+.tlink:hover::after,.tlink:active::after,.tlink:focus-visible::after{transform:scaleX(1)}
+.iconbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:44px;min-height:44px;border-radius:4px;transition:background-color .18s,transform .18s}
+.iconbtn:hover{background:var(--amber-soft)}
+.iconbtn:active{transform:scale(.94)}
+
+/* ---------- 導覽：竹簾頂 + 酒紅暖簾線 ---------- */
+.hdr{position:sticky;top:0;z-index:40;background:var(--blind),linear-gradient(#2A1B11,#1F140D);border-bottom:3px solid var(--wine);box-shadow:0 10px 24px -16px #000}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:var(--hdr)}
+.brand{display:inline-flex;align-items:center;gap:2px;min-height:44px;font:900 1.45rem/1 var(--serif);letter-spacing:.14em;white-space:nowrap;color:var(--cream)}
+.brand i{font-style:normal;color:var(--amber)}
+.dnav{display:none;gap:clamp(12px,1.8vw,26px);font-size:.9rem;font-weight:500;color:var(--muted)}
+.dnav a{display:inline-flex;align-items:center;min-height:44px;position:relative;transition:color .18s}
+.dnav a::after{content:"";position:absolute;left:0;right:0;bottom:8px;height:1px;background:var(--amber);transform:scaleX(0);transform-origin:left;transition:transform .2s}
+.dnav a:hover{color:var(--cream)}
+.dnav a:hover::after{transform:scaleX(1)}
+.hdr-actions{display:flex;align-items:center;gap:6px}
+.cartbtn{position:relative;padding-inline:10px}
+.cartbtn .n{min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--amber);color:var(--ink);font-size:.75rem;font-weight:700;line-height:22px;text-align:center}
+.cartbtn .n.zero{background:rgba(244,232,210,.18);color:var(--cream)}
+.hdr .btn{min-height:42px;padding-inline:16px;font-size:.88rem}
+.mnav{border-top:1px solid var(--line);background:#1F140D}
+.mnav a{display:flex;align-items:center;min-height:50px;border-bottom:1px solid var(--line);font-weight:500}
+@media(min-width:1024px){.dnav{display:flex}.menubtn{display:none}.mnav{display:none!important}}
+
+/* ---------- 圖片 ---------- */
+.ph{position:relative;overflow:hidden;background:#2E1F14}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph.fail img{display:none}
+.ph.fail::after{content:attr(data-alt);position:absolute;inset:0;display:grid;place-items:center;padding:16px;text-align:center;font-size:.86rem;color:var(--muted)}
+.ph .glyph{position:absolute;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#5A3A22,#2E1F14 70%);font:900 4.4rem/1 var(--serif);color:rgba(242,166,74,.55)}
+.ph .tag{position:absolute;left:10px;bottom:10px;z-index:2;padding:1px 9px;border-radius:2px;background:rgba(27,18,12,.82);color:var(--cream);font-size:.72rem}
+
+/* ---------- 首屏：琥珀燈光吧檯 ---------- */
+.hero-band{position:relative;overflow-x:clip;background:radial-gradient(ellipse 60% 70% at 72% 20%,rgba(242,166,74,.22),transparent 70%),radial-gradient(ellipse 40% 50% at 12% 0%,rgba(242,166,74,.12),transparent 70%),var(--grain),linear-gradient(180deg,#24170E,#1B120C 70%)}
+.hero-band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34px;background:linear-gradient(180deg,#5A3A22,#3B2617);box-shadow:0 -1px 0 rgba(255,210,150,.25) inset,0 -18px 30px -18px rgba(242,166,74,.35)}
+.hero{position:relative;padding-block:44px 92px}
+.hero-grid{display:grid;gap:36px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.84rem;font-weight:700;letter-spacing:.24em;color:var(--amber)}
+.eyebrow::before{content:"";width:26px;height:1px;background:currentColor}
+.hero h1{margin:16px 0 20px;font:900 clamp(2.6rem,9.6vw,4.9rem)/1.2 var(--serif);letter-spacing:.03em;text-shadow:0 2px 24px rgba(242,166,74,.25)}
+.hero h1 em{font-style:normal;color:var(--amber)}
+.hero .lead{max-width:27em;padding-left:16px;border-left:2px solid var(--wine-lt);color:var(--muted);font:400 1.06rem/1.9 var(--hand)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;margin-top:30px}
+.hero-cta .tlink{color:var(--cream)}
+.hero-fig{position:relative}
+/* 鍋貼照片：粗黑相框，下緣加厚當作店貓的走道 */
+.hero-photo{aspect-ratio:4/3.1;border:8px solid #120B07;border-bottom-width:14px;border-radius:3px;box-shadow:0 0 0 1px rgba(255,210,150,.14),0 28px 60px -24px #000,0 0 60px -20px rgba(242,166,74,.45)}
+.hero-photo img{object-position:50% 56%}
+.hero-fig figcaption,.cap{margin-top:10px;font-size:.76rem;color:var(--muted)}
+.hero-fig figcaption{text-align:left}
+.sfx{position:absolute;z-index:4;pointer-events:none;font:700 clamp(1.5rem,4.6vw,2.4rem)/1 var(--hand);color:#FFE2B0;text-shadow:0 2px 0 #3A1E10,0 0 18px rgba(242,166,74,.8)}
+.sfx-1{left:4%;top:7%;transform:rotate(-10deg)}
+.sfx-2{right:-6px;bottom:44%;transform:rotate(8deg)}
+@media(min-width:768px){.sfx-2{bottom:30%}}
+.burst{display:none}
+@media(min-width:768px){
+  .hero{padding-block:72px 120px}
+  .hero-grid{grid-template-columns:5fr 6fr;gap:64px;align-items:center}
+  .hero-photo{aspect-ratio:auto;height:min(46vw,500px)}
+}
+
+/* ---------- 店貓圖層（不攔截點擊） ---------- */
+.cat-layer{position:absolute;inset:0;z-index:6;pointer-events:none}
+.cat{position:absolute;left:0;top:0;will-change:transform;opacity:1;transition:opacity .3s}
+.cat.enter{opacity:0}
+.cat-inner{position:relative;width:100%;height:100%}
+.cat-inner.flip{transform:scaleX(-1)}
+.cat-inner img{position:absolute;inset:0;width:100%;height:100%;visibility:hidden;filter:drop-shadow(0 6px 5px rgba(0,0,0,.45))}
+.cat-inner img.on{visibility:visible}
+.cat-shadow{display:none}
+/* 店內場景：把棚拍的冷白毛色調成場景的琥珀暖光，加上腳下接觸陰影；轉身時有短暫轉體 */
+.scene .cat-inner{transition:transform .26s ease-in-out}
+.scene .cat-inner img{filter:url(#warmCat) drop-shadow(0 2px 2px rgba(20,8,0,.35))}
+.scene .cat-shadow{display:block;position:absolute;left:16%;width:68%;top:91.5%;height:8%;border-radius:50%;background:radial-gradient(closest-side,rgba(28,10,0,.62),rgba(28,10,0,.28) 55%,transparent);filter:blur(1px)}
+/* 重播店貓動畫：使用者主動觸發，減少動態效果時也會播放 */
+.hero-cap{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.cat-replay{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border:1px solid rgba(242,166,74,.45);border-radius:22px;color:var(--amber);font:500 .82rem/1 var(--sans);transition:background-color .18s,border-color .18s}
+.cat-replay:hover{background:var(--amber-soft);border-color:var(--amber)}
+.cat-replay:active{transform:scale(.96)}
+.scene .cap{align-items:center}
+
+/* ---------- 區塊 ---------- */
+main{counter-reset:ch}
+.sec{counter-increment:ch;position:relative;padding-block:clamp(56px,7vw,100px)}
+.sec h2{font:900 clamp(2rem,5vw,3.1rem)/1.3 var(--serif);letter-spacing:.03em}
+.sec h2::before{content:"其之" counter(ch,cjk-decimal);display:block;width:max-content;margin-bottom:10px;padding:2px 12px;border:1px solid rgba(242,166,74,.5);border-radius:2px;background:linear-gradient(#4A3020,#3B2617);color:var(--amber);font:700 .8rem/1.7 var(--sans);letter-spacing:.26em}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px 24px;margin-bottom:32px}
+.note{font-size:.84rem;color:var(--muted)}
+.pending{display:inline-block;margin-left:6px;padding:0 7px;border:1px solid currentColor;border-radius:2px;font-size:.72rem;opacity:.8;vertical-align:middle}
+#story{background:var(--grain),#20150E}
+#featured{background:radial-gradient(ellipse 50% 60% at 50% 0,rgba(242,166,74,.1),transparent 70%),var(--bg)}
+#order{background:var(--grain),#20150E}
+#gift{background:var(--bg)}
+#stores{background:var(--grain),#20150E}
+#faq{background:var(--bg)}
+
+/* ---------- 品牌故事 ---------- */
+.story-grid{display:grid;gap:26px}
+.story-main .ph{aspect-ratio:3/2;border-radius:3px;box-shadow:0 24px 50px -24px #000}
+.story-side .ph{aspect-ratio:1/1;border-radius:3px;box-shadow:0 24px 50px -24px #000}
+.story-text{max-width:30em;color:var(--muted);font:400 1.05rem/1.95 var(--hand)}
+.facts{display:grid;margin-top:44px;border-top:1px solid var(--line)}
+.fact{padding:22px 0;border-bottom:1px solid var(--line)}
+.fact b{display:block;font:700 1.3rem/1.5 var(--serif);margin-bottom:6px;color:var(--amber)}
+.fact p{color:var(--muted);font-size:.95rem}
+/* 店內一景：店貓走上吧檯 */
+.scene{position:relative;margin-top:52px}
+.scene-stage{position:relative;overflow:hidden;aspect-ratio:16/9;border:6px solid #120B07;border-radius:3px;box-shadow:0 0 0 1px rgba(255,210,150,.14),0 30px 60px -26px #000,0 0 80px -30px rgba(242,166,74,.5)}
+.scene-stage > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scene-stage.fail{background:#2E1F14}
+.scene-stage.fail > img{display:none}
+.scene .cap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* 店長站在吧檯後：位置依純場景 1672×941 量測（中心 x=405、底 y=712、邊長 650） */
+.scene-keeper{position:absolute;left:4.785%;top:6.589%;width:38.876%;height:69.07%;pointer-events:none}
+.scene-keeper img{position:absolute;inset:0;width:100%;height:100%;visibility:hidden}
+.scene-keeper img.on{visibility:visible}
+.scene-keeper.nod img.on{animation:kNod .45s cubic-bezier(.3,1.5,.5,1)}
+@keyframes kNod{0%{transform:translateY(3%)}100%{transform:none}}
+/* 吧檯前緣：同一張場景圖沿吧檯後緣斜線裁切，疊在店長前面 */
+.scene-stage > .scene-front{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;clip-path:polygon(0 73.54%,39.47% 69.08%,100% 57.17%,100% 100%,0 100%)}
+.scene-stage.fail > .scene-front{display:none}
+/* 店長對話 */
+.scene-bubble{position:absolute;z-index:5;left:34%;top:6%;max-width:min(40%,330px);padding:10px 14px;border-radius:14px;background:rgba(251,244,230,.96);color:var(--ink);font:400 clamp(.74rem,1.5vw,1rem)/1.6 var(--hand);box-shadow:0 12px 26px -12px #000;animation:pop .22s cubic-bezier(.3,1.4,.5,1) both;transform-origin:left bottom;pointer-events:none}
+.scene-bubble::before{content:"";position:absolute;left:-9px;bottom:16px;width:16px;height:16px;background:rgba(251,244,230,.96);clip-path:polygon(100% 0,0 70%,100% 100%)}
+@media(max-width:520px){.scene-bubble{left:33%;top:4%;max-width:56%;padding:7px 10px}}
+@media(min-width:768px){
+  .story-grid{grid-template-columns:7fr 4fr;gap:48px;align-items:start}
+  .story-side{margin-top:110px}
+  .story-side .ph{width:80%;margin-left:auto}
+  .story-intro{grid-column:1/-1;display:grid;grid-template-columns:5fr 6fr;gap:48px;align-items:end}
+  .facts{grid-template-columns:repeat(3,1fr);gap:0 40px;border-top:0}
+  .fact{border-top:1px solid var(--line);border-bottom:0}
+}
+
+/* ---------- 熱門餐點：和紙菜單本 ---------- */
+.mag{outline:none}
+.mag:focus-visible{outline:2px solid var(--amber);outline-offset:8px}
+.spread{position:relative;display:grid;grid-template-columns:1fr;perspective:1800px;height:calc((100vw - 40px)*.72 + 21rem);max-height:920px;border-radius:3px;background:var(--paper);box-shadow:0 0 0 6px #120B07,0 30px 60px -26px #000,0 0 70px -30px rgba(242,166,74,.45)}
+.pane{position:relative;min-width:0;background:var(--paper2);overflow:hidden;color:var(--ink)}
+.pane.l,.pane.r{height:100%}
+.pane.r{display:none}
+.both{display:grid;grid-template-rows:auto 1fr;height:100%}
+.mag-photo{height:100%;min-height:0}
+.both .mag-photo{aspect-ratio:1/.72;height:auto}
+.mag-text{padding:22px 22px 16px;display:flex;flex-direction:column;justify-content:center;height:100%;color:var(--ink);background:radial-gradient(ellipse at 100% 100%,rgba(146,47,48,.07),transparent 60%),var(--paper2)}
+.mag-text .no{font-size:.8rem;letter-spacing:.16em;color:var(--wine);font-weight:700}
+.mag-text h3{font:900 1.8rem/1.35 var(--serif);margin:6px 0 10px}
+.mag-text p.body{color:var(--ink-muted);font:400 1rem/1.85 var(--hand)}
+.mag-text .tlink{align-self:flex-start;margin-top:8px;color:var(--wine)}
+.leaf{position:absolute;top:0;bottom:0;width:100%;left:0;transform-style:preserve-3d;transition:transform .4s cubic-bezier(.45,.05,.3,1),box-shadow .4s;z-index:5;will-change:transform}
+.leaf.next{transform-origin:left center}
+.leaf.prev{transform-origin:right center}
+.leaf .face{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--paper2);color:var(--ink)}
+.leaf .face.back{transform:rotateY(180deg)}
+.leaf.go{box-shadow:0 0 36px rgba(0,0,0,.45)}
+.leaf.next.go{transform:rotateY(-180deg)}
+.leaf.prev.go{transform:rotateY(180deg)}
+.leaf .edge{position:absolute;top:0;bottom:0;width:3px;background:linear-gradient(90deg,#D9C6A6,#F7EEDC)}
+.leaf.next .edge{right:0}.leaf.prev .edge{left:0}
+.fadein{animation:fadein .2s ease both}
+@keyframes fadein{from{opacity:0}}
+.mag-ctrl{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px}
+.mag-ctrl .count{min-width:4em;text-align:center;font:700 1rem/1 var(--serif);color:var(--amber)}
+@media(min-width:768px){
+  .spread{grid-template-columns:1fr 1fr;height:540px}
+  .pane.r{display:block}
+  .spread::before{content:"";position:absolute;z-index:6;left:calc(50% - 7px);width:14px;top:0;bottom:0;background:linear-gradient(90deg,transparent,rgba(60,35,20,.28),transparent);pointer-events:none}
+  .leaf{width:50%}
+  .leaf.next{left:auto;right:0}
+  .leaf.prev{left:0}
+  .mag-text{padding:48px clamp(28px,4vw,56px)}
+  .mag-text h3{font-size:2.4rem}
+}
+
+/* ---------- 線上點餐：木札分類 + 和紙菜單卡 ---------- */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;margin-bottom:22px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;min-height:46px;padding:0 20px;border:1px solid rgba(242,166,74,.3);border-radius:3px;background:linear-gradient(#4A3020,#3B2617);color:var(--muted);font:700 .95rem/1 var(--serif);letter-spacing:.08em;transition:color .18s,border-color .18s,background .18s}
+.tab:hover{color:var(--cream);border-color:var(--amber)}
+.tab[aria-selected="true"]{background:var(--wine);border-color:var(--wine-lt);color:#FFF4E4;box-shadow:0 6px 18px -8px rgba(242,166,74,.5)}
+.grid-prod{display:grid;gap:26px;grid-template-columns:1fr}
+.prod{display:flex;flex-direction:column;border-radius:4px;background:var(--paper2);color:var(--ink);overflow:hidden;box-shadow:0 18px 40px -22px #000;transition:transform .2s,box-shadow .2s;animation:fadein .2s ease both}
+.prod:hover{transform:translateY(-4px);box-shadow:0 24px 46px -22px #000,0 0 40px -18px rgba(242,166,74,.45)}
+.prod .ph{aspect-ratio:4/3}
+.prod h3,.prod .desc,.prod .row{margin-inline:18px}
+.prod h3{font:700 1.22rem/1.5 var(--serif);margin-top:14px}
+.prod .desc{color:var(--ink-muted);font:400 .95rem/1.75 var(--hand);margin-top:4px;flex:1}
+.prod .row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;margin-bottom:18px;padding-top:12px;border-top:1px dashed var(--line-ink)}
+.prod .row .btn{min-height:44px;padding-inline:16px;font-size:.88rem}
+.price{font:700 1.2rem/1.2 var(--serif);color:var(--wine)}
+.price small{font:400 .78rem var(--sans);color:var(--ink-muted)}
+.chiptag{display:inline-block;margin-left:8px;padding:0 7px;border-radius:2px;background:var(--wine);color:#FFF4E4;font:700 .72rem/1.6 var(--sans);vertical-align:middle}
+@media(min-width:640px){.grid-prod{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.grid-prod{grid-template-columns:repeat(3,1fr)}}
+
+/* ---------- 冷凍禮盒 ---------- */
+.gift-grid{display:grid;gap:30px}
+.gift-photo{aspect-ratio:4/3;border:6px solid #120B07;border-radius:3px;box-shadow:0 28px 56px -26px #000}
+.gift-grid > div > p{font-family:var(--hand);color:var(--muted)!important}
+.gift-list li{display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:center;padding:18px 20px;margin-top:12px;border-radius:4px;background:var(--paper2);color:var(--ink);box-shadow:0 14px 30px -20px #000}
+.gift-list h3{font:700 1.22rem/1.5 var(--serif)}
+.gift-list .meta{grid-column:1/-1;color:var(--ink-muted);font-size:.9rem}
+#gift .note{color:var(--muted)}
+@media(min-width:768px){.gift-grid{grid-template-columns:6fr 5fr;gap:56px;align-items:center}.gift-photo{aspect-ratio:auto;height:460px}}
+
+/* ---------- 門市 ---------- */
+.store-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.pill{min-height:46px;padding:0 20px;border:1px solid rgba(242,166,74,.3);border-radius:3px;background:linear-gradient(#4A3020,#3B2617);color:var(--muted);font:700 .95rem/1 var(--serif);transition:all .18s}
+.pill:hover{color:var(--cream);border-color:var(--amber)}
+.pill[aria-pressed="true"]{background:var(--wine);border-color:var(--wine-lt);color:#FFF4E4}
+.store-grid{display:grid;gap:28px}
+.store-info dl{border-top:1px solid var(--line)}
+.store-info dl>div{display:grid;grid-template-columns:5.5em 1fr;gap:8px;padding-block:13px;border-bottom:1px solid var(--line)}
+.store-info dt{font-weight:700;color:var(--amber)}
+.store-info dd{color:var(--cream)}
+.store-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.store-links .off{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px dashed var(--line);border-radius:3px;color:var(--muted);font-size:.88rem}
+.map{position:relative;aspect-ratio:4/3;border:6px solid #120B07;border-radius:3px;background:#2A1C12;overflow:hidden;box-shadow:0 24px 50px -24px #000}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.map svg rect{fill:#34241A}
+.map svg rect:first-of-type{fill:#2A1C12}
+.map svg path:nth-of-type(1){stroke:#4E3624}
+.map svg path:nth-of-type(2){stroke:#3E2B1D}
+.map .pin{position:absolute;left:50%;top:46%;transform:translate(-50%,-100%);display:grid;justify-items:center;gap:2px}
+.map .pin span{padding:2px 12px;border-radius:3px;background:var(--wine);color:#FFF4E4;font-size:.85rem;font-weight:700;white-space:nowrap;box-shadow:0 0 20px rgba(242,166,74,.4)}
+.map .pin .icon{color:var(--amber)!important}
+.map .tag{position:absolute;left:10px;bottom:10px;padding:1px 9px;border-radius:2px;background:rgba(27,18,12,.82);font-size:.72rem;color:var(--muted)}
+@media(min-width:768px){.store-grid{grid-template-columns:5fr 6fr;gap:48px;align-items:start}.map{aspect-ratio:auto;height:100%;min-height:340px}}
+
+/* ---------- 常見問題 ---------- */
+.faq{display:grid;gap:12px;max-width:840px}
+.faq details{border-radius:4px;background:var(--paper2);color:var(--ink);box-shadow:0 12px 28px -20px #000}
+.faq summary{display:flex;align-items:center;gap:12px;min-height:58px;padding:8px 18px;cursor:pointer;font:700 1.05rem/1.5 var(--serif);list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";margin-left:auto;font:400 1.5rem/1 var(--sans);color:var(--wine);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 18px 18px;color:var(--ink-muted);font:400 .98rem/1.85 var(--hand);animation:fadein .2s ease both}
+
+/* ---------- 頁尾 ---------- */
+.foot{background:var(--blind),#140D08;color:var(--cream);padding-block:52px 28px;border-top:3px solid var(--wine)}
+.foot .note{color:var(--muted)}
+.foot-grid{display:grid;gap:34px}
+.foot h3{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font:700 1.1rem/1.5 var(--serif);margin-bottom:10px;color:var(--amber)}
+.foot li{padding-block:2px;color:var(--muted)}
+.social a,.social span{display:inline-flex;align-items:center;min-height:44px;margin-right:16px}
+.social span{color:#9C8A74}
+.news{display:flex;gap:10px;flex-wrap:wrap}
+.news input{flex:1 1 200px;min-height:48px;padding:0 14px;border:1px solid rgba(244,232,210,.35);border-radius:4px;background:#22170F;color:var(--cream)}
+.news input:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px rgba(242,166,74,.2)}
+.err{margin-top:6px;font-size:.84rem;color:#B3261E}
+.foot .err{color:#FF9C8A}
+.ok{margin-top:10px;font-weight:700;color:var(--amber)}
+.copy{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:.84rem;color:#9C8A74}
+@media(min-width:768px){.foot-grid{grid-template-columns:1fr 1fr 1.2fr;gap:56px}}
+
+/* ---------- 抽屜 / 視窗：和紙 ---------- */
+.veil{position:fixed;inset:0;z-index:60;background:rgba(10,6,3,.66);opacity:0;pointer-events:none;transition:opacity .2s}
+.veil.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;z-index:70;top:0;right:0;bottom:0;width:min(100%,420px);display:flex;flex-direction:column;background:var(--paper2);color:var(--ink);box-shadow:-20px 0 50px -20px #000;transform:translateX(102%);visibility:hidden;transition:transform .22s ease,visibility 0s .22s}
+.drawer.on{transform:none;visibility:visible;transition:transform .22s ease}
+.dr-head,.dr-foot{padding:14px 20px}
+.dr-head{display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--wine);background:var(--paper)}
+.dr-head h2,.modal-head h2{font:900 1.3rem/1.4 var(--serif)}
+.dr-body{flex:1;overflow-y:auto;padding:4px 20px;-webkit-overflow-scrolling:touch}
+.dr-foot{border-top:1px solid var(--line-ink);background:var(--paper)}
+.drawer .iconbtn:hover,.modal .iconbtn:hover{background:rgba(146,47,48,.1)}
+.line{display:grid;grid-template-columns:1fr auto;gap:6px 12px;padding-block:16px;border-bottom:1px dashed var(--line-ink)}
+.line .nm{font-weight:700;line-height:1.5}
+.line .unit{font-size:.85rem;color:var(--ink-muted)}
+.line .sub{font-weight:700;text-align:right;color:var(--wine)}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line-ink);border-radius:4px;background:#fff}
+.qty button{width:42px;height:42px;display:grid;place-items:center;transition:background-color .16s}
+.qty button:hover{background:var(--tan)}
+.qty output{min-width:34px;text-align:center;font-weight:700}
+.line .ctl{display:flex;align-items:center;justify-content:space-between;grid-column:1/-1}
+.line .tlink{color:var(--ink-muted)}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;font-weight:700}
+.total b{font:900 1.55rem/1.2 var(--serif);color:var(--wine)}
+.empty{padding:36px 0;text-align:center;color:var(--ink-muted);font:400 1rem/1.8 var(--hand)}
+.empty .btn{margin-top:16px;font-family:var(--sans)}
+.modal{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;background:rgba(10,6,3,.7)}
+.modal-box{width:min(100%,640px);margin-block:auto;background:var(--paper2);color:var(--ink);border-top:4px solid var(--wine);border-radius:4px;box-shadow:0 30px 70px -20px #000;animation:fadein .2s ease both}
+.modal-head{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line-ink);position:sticky;top:0;background:var(--paper2);z-index:2}
+.stamp{display:inline-block;margin-left:8px;padding:0 8px;border:1px solid var(--wine);border-radius:2px;color:var(--wine);font:700 .74rem/1.7 var(--sans);vertical-align:middle}
+.foot .stamp{border-color:var(--amber);color:var(--amber)}
+.modal-body{padding:20px 20px 26px}
+.sum{margin-bottom:22px;border:1px solid var(--line-ink);border-radius:4px;background:#fff}
+.sum li{display:flex;justify-content:space-between;gap:12px;padding:8px 14px;border-bottom:1px dashed var(--line-ink);font-size:.92rem}
+.sum li.t{border:0;font-weight:700;background:var(--paper)}
+.fset{margin-bottom:16px}
+.fset legend,.fld label{display:block;margin-bottom:6px;font-weight:700;font-size:.92rem}
+.radio{display:flex;align-items:center;gap:10px;min-height:46px;padding:0 14px;border:1px solid var(--line-ink);border-radius:4px;margin-bottom:10px;background:#fff;cursor:pointer}
+.radio:has(input:checked){border-color:var(--wine);background:#FBEDE6}
+.radio input{accent-color:var(--wine);width:18px;height:18px}
+.fld{margin-bottom:16px}
+.fld input,.fld select{width:100%;min-height:48px;padding:0 12px;border:1px solid #BFA987;border-radius:4px;background:#fff;color:var(--ink);color-scheme:light}
+.fld input:focus,.fld select:focus{outline:none;border-color:var(--wine);box-shadow:0 0 0 3px rgba(146,47,48,.15)}
+.fld input[aria-invalid="true"],.fld select[aria-invalid="true"]{border-color:#B3261E;background:#FFF1EE}
+.rule{padding:10px 14px;margin-bottom:12px;border-radius:4px;background:var(--paper);font:400 .92rem/1.7 var(--hand)}
+.modal .note{color:var(--ink-muted)}
+.done h3{font:900 1.55rem/1.4 var(--serif);margin-bottom:10px}
+.toast{position:fixed;z-index:90;left:50%;top:calc(var(--hdr) + 14px);max-width:calc(100% - 32px);padding:10px 18px;border-radius:4px;background:var(--paper2);color:var(--ink);font:400 .95rem/1.6 var(--hand);box-shadow:0 12px 30px -10px #000;opacity:0;pointer-events:none;transform:translate(-50%,10px);transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+body.lock{overflow:hidden}
+
+/* ---------- 虛擬店長 ---------- */
+.keeper{position:fixed;z-index:55;left:14px;bottom:12px;display:flex;align-items:flex-end;gap:10px;pointer-events:none}
+body.lock .keeper{visibility:hidden}
+.keeper-btn{order:1;pointer-events:auto;position:relative;width:118px;height:118px;border-radius:50%;transition:transform .2s,opacity .2s;-webkit-tap-highlight-color:transparent}
+.keeper-btn:hover{transform:translateY(-4px)}
+.keeper-frame{position:absolute;inset:0;border:3px solid #120B07;border-radius:50%;background:radial-gradient(circle at 50% 35%,#F7C27A,#C9772F 75%);box-shadow:0 0 0 2px rgba(242,166,74,.45),0 10px 24px -8px #000,0 0 30px -6px rgba(242,166,74,.6)}
+.keeper-pop{position:absolute;left:-16px;top:-40px;width:150px;height:158px;clip-path:path("M0 0 H150 V135 H122 A59 59 0 0 1 28 135 H0 Z");pointer-events:none}
+.keeper-img{position:absolute;left:0;bottom:0;width:150px;height:150px;max-width:none;transform-origin:50% 100%}
+.keeper.nod .keeper-img{animation:pose .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pose{0%{transform:translateY(12%) scale(.92)}100%{transform:none}}
+.keeper-btn::after{content:"店長";position:absolute;z-index:2;left:50%;bottom:-8px;padding:0 9px;border-radius:2px;background:var(--wine);color:#FFF4E4;font:700 .7rem/1.6 var(--sans);letter-spacing:.14em;transform:translateX(-50%)}
+.keeper.off .keeper-btn{transform:scale(.6);transform-origin:bottom left;opacity:.85}
+/* 首屏按鈕與店長重疊時，店長往下讓開，不擋「線上點餐」 */
+.keeper .keeper-btn{transition:transform .25s,opacity .25s}
+.keeper.dodge .keeper-btn{transform:translateY(78%) scale(.7);transform-origin:bottom left;opacity:.55;pointer-events:none}
+.keeper.dodge .bubble{display:none}
+.keeper-cameo{display:block;width:120px;height:120px;margin:0 auto 8px;object-fit:contain}
+.bubble{order:2;pointer-events:auto;position:relative;margin-bottom:64px;width:max-content;max-width:min(290px,calc(100vw - 134px));padding:12px 36px 12px 16px;border-radius:14px;background:var(--paper2);color:var(--ink);box-shadow:0 16px 36px -12px #000,0 0 0 1px rgba(146,47,48,.25);font:400 .98rem/1.7 var(--hand);animation:pop .22s cubic-bezier(.3,1.4,.5,1) both;transform-origin:bottom left}
+.bubble::before{content:"";position:absolute;left:-10px;bottom:20px;width:18px;height:18px;background:var(--paper2);clip-path:polygon(100% 0,0 100%,100% 70%)}
+@keyframes pop{from{opacity:0;transform:scale(.6) translateY(8px)}}
+.bubble-who{display:inline-block;margin-bottom:4px;padding:0 8px;border-radius:2px;background:var(--wine);color:#FFF4E4;font:700 .7rem/1.6 var(--sans);letter-spacing:.16em}
+.bubble b{color:var(--wine)}
+.bubble-x{position:absolute;top:4px;right:6px;width:30px;height:30px;font-size:1.2rem;color:var(--ink-muted);border-radius:50%}
+.bubble-x:hover{background:var(--tan);color:var(--ink)}
+.bubble-act{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;font-family:var(--sans)}
+.bubble-act:empty{display:none}
+.bubble-act .btn{min-height:40px;padding:0 14px;font-size:.84rem}
+.bubble-act .tlink{min-height:40px;font-size:.84rem;color:var(--wine)}
+.shout{position:fixed;z-index:56;pointer-events:none;font:700 1.3rem/1 var(--hand);color:#FFE2B0;text-shadow:0 2px 0 #3A1E10,0 0 14px rgba(242,166,74,.9);white-space:nowrap;animation:shout .9s ease-out forwards}
+@keyframes shout{0%{opacity:0;transform:translateY(6px) scale(.7)}20%{opacity:1;transform:translateY(0) scale(1.1)}100%{opacity:0;transform:translateY(-36px) scale(1)}}
+@media(max-width:640px){
+  .keeper-btn{width:78px;height:78px}
+  .keeper-pop{left:-11px;top:-28px;width:100px;height:106px;clip-path:path("M0 0 H100 V90 H81 A39 39 0 0 1 19 90 H0 Z")}
+  .keeper-img{width:100px;height:100px}
+  .bubble{margin-bottom:40px}
+}
+
+/* 飛入購物車的鍋貼 */
+.fly{position:fixed;z-index:95;left:0;top:0;width:30px;height:18px;margin:-9px 0 0 -15px;border-radius:15px 15px 6px 6px;background:radial-gradient(ellipse at 50% 100%,#B86A2A 0 35%,#F0BD72 72%);box-shadow:0 0 14px rgba(242,166,74,.8);pointer-events:none}
+.cartbtn.bump .n{animation:bump .4s ease}
+@keyframes bump{40%{transform:scale(1.5)}}
+.btn.added{background:#3F7A4F!important;color:#fff}
+
+/* 紅燈籠與蒸氣 */
+.lantern{position:absolute;z-index:5;top:-34px;right:22px;width:62px;cursor:pointer;transform-origin:50% 0;animation:swing 4.5s ease-in-out infinite;-webkit-tap-highlight-color:transparent}
+.lantern.shake{animation:shake .9s ease-out}
+@keyframes swing{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes shake{20%{transform:rotate(-16deg)}45%{transform:rotate(12deg)}70%{transform:rotate(-6deg)}100%{transform:rotate(0)}}
+.lantern .cord{display:block;width:2px;height:28px;margin:0 auto;background:#6B4A2E}
+.lantern .cap{display:block;height:7px;margin:0 12px;background:#140C07;border-radius:2px}
+.lantern .body{display:grid;place-items:center;height:78px;border-radius:44%;background:repeating-linear-gradient(180deg,transparent 0 11px,rgba(0,0,0,.18) 11px 12px),radial-gradient(circle at 50% 42%,#E8573C,#9E2A1E 78%);color:#FFE7B8;font:900 1.6rem/1 var(--serif);box-shadow:0 0 40px 10px rgba(242,120,60,.45);transition:box-shadow .3s}
+.lantern:hover .body,.lantern.shake .body{box-shadow:0 0 56px 16px rgba(242,120,60,.6)}
+.lantern .tassel{display:block;width:12px;height:16px;margin:0 auto;background:linear-gradient(#140C07 0 30%,#B5321C 30%);clip-path:polygon(30% 0,70% 0,100% 100%,0 100%)}
+.steam{position:absolute;z-index:2;left:30%;bottom:38%;width:40%;height:50%;pointer-events:none}
+.steam i{position:absolute;bottom:0;width:26%;height:40%;border-radius:50%;background:rgba(255,244,228,.3);filter:blur(10px);animation:steam 4.2s ease-in infinite;opacity:0}
+.steam i:nth-child(1){left:8%}
+.steam i:nth-child(2){left:38%;animation-delay:1.4s}
+.steam i:nth-child(3){left:66%;animation-delay:2.8s}
+@keyframes steam{0%{opacity:0;transform:translateY(0) scale(.7)}25%{opacity:1}100%{opacity:0;transform:translateY(-140%) scale(1.5) translateX(10%)}}
+
+/* 訂單完成：店貓跳上木板、蓋章 */
+.done{position:relative}
+.seal{position:absolute;top:-4px;right:0;z-index:2;display:grid;place-items:center;width:84px;height:84px;border:3px solid var(--wine);border-radius:50%;color:var(--wine);font:900 1rem/1.2 var(--serif);text-align:center;transform:rotate(-14deg);box-shadow:inset 0 0 0 3px var(--paper2),inset 0 0 0 4px var(--wine);animation:seal .5s cubic-bezier(.3,1.5,.5,1) .15s both}
+@keyframes seal{from{opacity:0;transform:rotate(-14deg) scale(2.4)}}
+.cat-stage{position:relative;height:130px;margin:4px 0 14px;overflow:hidden;border-radius:4px;background:radial-gradient(ellipse 60% 90% at 30% 100%,rgba(242,166,74,.35),transparent 70%),linear-gradient(#3B2617,#2A1B11)}
+.cat-stage::before{content:"";position:absolute;left:8%;bottom:34px;width:46%;height:12px;border-radius:2px;background:linear-gradient(#7A5232,#5A3A22);box-shadow:0 6px 10px -4px #000}
+.cat-stage::after{content:"本日示範訂單";position:absolute;left:8%;bottom:10px;width:46%;text-align:center;font:400 .78rem/1.4 var(--hand);color:var(--muted)}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .lantern,.steam i{animation:none!important}
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+  .btn-primary:hover .arr{transform:none}
+  .drawer{transition:none}
+}
+</style>
+</head>
+<body id="top">
+<a class="skip" href="#main">跳至主要內容</a>
+
+<header class="hdr">
+  <div class="wrap hdr-in">
+    <a class="brand" href="#top" aria-label="炙餃座，回頂端">炙餃座<i aria-hidden="true">.</i></a>
+    <nav class="dnav" aria-label="主要導覽">
+      <a href="#story">品牌故事</a><a href="#featured">熱門餐點</a><a href="#order">線上點餐</a>
+      <a href="#gift">冷凍禮盒</a><a href="#stores">門市據點</a><a href="#contact">聯絡我們</a>
+    </nav>
+    <div class="hdr-actions">
+      <button class="iconbtn cartbtn" id="cartOpen" type="button" aria-label="開啟購物車，目前 0 件" aria-haspopup="dialog">
+        <i data-lucide="shopping-bag" class="icon"></i><span class="n zero" id="cartCount" aria-hidden="true">0</span>
+      </button>
+      <a class="btn btn-primary" href="#order" data-scroll>立即點餐</a>
+      <button class="iconbtn menubtn" id="menuBtn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="展開選單">
+        <i data-lucide="menu" class="icon"></i>
+      </button>
+    </div>
+  </div>
+  <nav class="mnav" id="mnav" aria-label="手機導覽" hidden>
+    <div class="wrap">
+      <a href="#story">品牌故事</a><a href="#featured">熱門餐點</a><a href="#order">線上點餐</a>
+      <a href="#gift">冷凍禮盒</a><a href="#stores">門市據點</a><a href="#contact">聯絡我們</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+  <!-- 1. 主視覺 -->
+  <div class="hero-band">
+  <section class="hero wrap" aria-labelledby="h1">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">鍋貼　預約與外帶</p>
+        <h1 id="h1">從鍋貼吃到<br>高級料理<em>。</em></h1>
+        <p class="lead">從一盤酥脆的鍋貼開場，慢慢吃完一餐。<br>在有居酒屋氣氛的小店，和朋友好好聚一聚。</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#order">線上點餐 <span class="arr" aria-hidden="true">→</span></a>
+          <a class="tlink" href="#stores">探索門市</a>
+        </div>
+        <p class="note" style="margin-top:22px">本站菜單、價格與門市皆為示例資料。</p>
+      </div>
+      <figure class="hero-fig">
+        <div class="lantern" id="lantern" aria-hidden="true"><span class="cord"></span><span class="cap"></span><span class="body">餃</span><span class="cap"></span><span class="tassel"></span></div>
+        <div class="ph hero-photo" data-alt="金黃焦脆的手工鍋貼"><img src="assets/hero.jpg" alt="深色陶盤上的手工鍋貼，側放露出金黃焦脆的底部" width="1500" height="1000" fetchpriority="high"><span class="steam" aria-hidden="true"><i></i><i></i><i></i></span></div>
+        <span class="sfx sfx-1" aria-hidden="true">滋滋…</span>
+        <span class="sfx sfx-2" aria-hidden="true">咔滋！</span>
+        <!-- 店貓迎賓：沿相框下緣行走，不攔截點擊 -->
+        <div class="cat-layer" id="heroCat" aria-hidden="true"></div>
+        <figcaption class="hero-cap"><span>鍋貼底部煎到焦脆。示意圖</span><button class="cat-replay" id="heroReplay" type="button">▶ 看店貓進場</button></figcaption>
+      </figure>
+    </div>
+  </section>
+  </div>
+
+  <!-- 2. 品牌故事 -->
+  <section class="sec" id="story" aria-labelledby="story-h">
+    <div class="wrap">
+      <div class="story-grid">
+        <div class="story-intro">
+          <h2 id="story-h">一餐，<br>從煎台開始。</h2>
+          <p class="story-text">我們想把平常就愛吃的鍋貼，做成值得專程來吃的一餐。先吃一口剛起鍋的酥脆，再慢慢嚐接下來的料理，留一張桌給你和朋友。</p>
+        </div>
+        <figure class="story-main">
+          <div class="ph" data-alt="料理人在鐵煎台上鏟起鍋貼"><img src="assets/story.jpg" alt="料理人用鍋鏟從鐵煎台鏟起一排金黃鍋貼" width="1500" height="1000" loading="lazy"></div>
+          <figcaption class="cap">煎台上的鍋貼。示意圖</figcaption>
+        </figure>
+        <figure class="story-side">
+          <div class="ph" data-alt="切開的鍋貼內餡"><img src="assets/pork.jpg" alt="陶盤上的煎鍋貼，切面露出豬肉與高麗菜內餡" width="1122" height="1402" loading="lazy"></div>
+          <figcaption class="cap">切面細節。示意圖</figcaption>
+        </figure>
+      </div>
+      <div class="facts">
+        <div class="fact"><b>食材</b><p>內餡以高麗菜搭配豬肉、鮮蝦或香菇，吃得到清甜與湯汁。食材產地與規格<span class="pending">待店家提供</span></p></div>
+        <div class="fact"><b>包餡</b><p>餡要多汁，皮要能包住。包製流程與每日數量<span class="pending">待店家提供</span></p></div>
+        <div class="fact"><b>煎法</b><p>先煎出焦脆的底，再讓上層保持軟嫩。實際火候與時間<span class="pending">待店家提供</span></p></div>
+      </div>
+      <figure class="scene" id="scene">
+        <!-- 圖層順序：純場景 → 店長動作 → 吧檯前緣（遮住店長腰部）→ 對話 → 店貓 -->
+        <div class="scene-stage" id="sceneStage">
+          <img class="scene-bg" src="assets/izakaya.jpg" alt="暖色燈光下的居酒屋吧檯與鐵板煎台，店長站在檯後招呼，穿店服的布偶貓在吧檯上巡視" width="1600" height="900" loading="lazy">
+          <div class="scene-keeper" id="sceneKeeper" data-pose="greet" aria-hidden="true">
+            <img src="assets/keeper-greet.png" alt="" data-p="greet" class="on"><img src="assets/keeper-bow.png" alt="" data-p="bow"><img src="assets/keeper-offer.png" alt="" data-p="offer"><img src="assets/keeper-thumb.png" alt="" data-p="thumb">
+          </div>
+          <img class="scene-front" src="assets/izakaya.jpg" alt="" aria-hidden="true" width="1600" height="900" loading="lazy">
+          <p class="scene-bubble" id="sceneBubble" aria-hidden="true" hidden></p>
+          <div class="cat-layer" id="sceneCat" aria-hidden="true"></div>
+          <!-- 店貓調色：降低藍色、提高暖色，配合場景的琥珀燈光 -->
+          <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="warmCat" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0.93 0 0 0 0.03  0 0.80 0 0 0  0 0 0.62 0 -0.02  0 0 0 1 0"/></filter></svg>
+        </div>
+        <figcaption class="cap"><span>店內一景：店長顧著煎台，店貓在吧檯上來回巡視，累了就趴下睡一會兒。示意圖</span><button class="cat-replay" id="sceneToggle" type="button" aria-pressed="false">❚❚ 暫停店內動態</button></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 3. 熱門餐點：可翻閱雜誌 -->
+  <section class="sec" id="featured" aria-labelledby="feat-h">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="feat-h">熱門餐點</h2><p class="note">翻閱三頁專題，從這裡直接前往點餐。</p></div>
+      <div class="mag" id="mag" tabindex="0" role="group" aria-roledescription="可翻頁專題" aria-label="餐點專題，可用左右方向鍵翻頁">
+        <div class="spread" id="spread">
+          <div class="pane l" id="paneL"></div>
+          <div class="pane r" id="paneR"></div>
+        </div>
+        <div class="mag-ctrl">
+          <button class="btn btn-ghost" id="prevBtn" type="button"><i data-lucide="chevron-left" class="icon"></i>上一頁</button>
+          <span class="count" id="pageNo" aria-hidden="true">1 / 3</span>
+          <button class="btn btn-ghost" id="nextBtn" type="button">下一頁<i data-lucide="chevron-right" class="icon"></i></button>
+        </div>
+        <p class="sr-only" id="magLive" aria-live="polite" role="status"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 線上點餐 -->
+  <section class="sec" id="order" aria-labelledby="order-h">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="order-h">線上點餐</h2><p class="note">示例菜單與價格，正式內容待店家提供。</p></div>
+      <div class="tabs" id="tabs" role="tablist" aria-label="餐點分類"></div>
+      <div class="grid-prod" id="menuPanel" role="tabpanel" tabindex="0"></div>
+    </div>
+  </section>
+
+  <!-- 5. 冷凍禮盒 -->
+  <section class="sec" id="gift" aria-labelledby="gift-h">
+    <div class="wrap gift-grid">
+      <figure>
+        <div class="ph gift-photo" data-alt="冷凍鍋貼禮盒"><img src="assets/shrimp.jpg" alt="切開可見蝦肉的鮮蝦鍋貼" width="440" height="440" loading="lazy" style="object-position:center"><span class="tag">示意圖</span></div>
+      </figure>
+      <div>
+        <h2 id="gift-h">把鍋貼帶回家</h2>
+        <p style="margin:10px 0 18px;color:var(--muted)">家庭聚餐或送禮，都可以選冷凍禮盒。保存方式與烹調時間，請依產品包裝標示。</p>
+        <ul class="gift-list" id="giftList"></ul>
+        <p class="note" style="margin-top:12px">冷凍商品可選外帶或宅配，與現做餐點同車時僅提供外帶。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 門市 -->
+  <section class="sec" id="stores" aria-labelledby="st-h">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="st-h">門市據點</h2><p class="note">以下門市資料為示例。</p></div>
+      <div class="store-tabs" id="storeTabs" role="group" aria-label="選擇門市"></div>
+      <div class="store-grid">
+        <div class="store-info" aria-live="polite">
+          <dl id="storeInfo"></dl>
+          <div class="store-links" id="storeLinks"></div>
+        </div>
+        <div class="map" role="img" aria-label="示意地圖，非實際位置">
+          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="300" fill="#241c16"/><path d="M-10 90 L410 130 M60 -10 L120 310 M250 -10 L300 310 M-10 220 L410 200" stroke="#4a3a2d" stroke-width="14" fill="none"/><path d="M-10 90 L410 130 M60 -10 L120 310 M250 -10 L300 310 M-10 220 L410 200" stroke="#33281f" stroke-width="10" fill="none"/><rect x="150" y="150" width="50" height="40" fill="#30251d"/><rect x="310" y="40" width="60" height="50" fill="#30251d"/><rect x="10" y="140" width="40" height="50" fill="#30251d"/></svg>
+          <div class="pin"><span id="pinName">旗艦店</span><i data-lucide="map-pin" class="icon" style="color:var(--accent);width:28px;height:28px"></i></div>
+          <span class="tag">示意畫面</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. 常見問題 -->
+  <section class="sec" id="faq" aria-labelledby="faq-h">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="faq-h">常見問題</h2></div>
+      <div class="faq">
+        <details><summary>怎麼線上點餐？</summary><p>在「線上點餐」選擇分類，按「加入購物車」，再到購物車前往結帳。目前為模擬訂單，不會真的送出。</p></details>
+        <details><summary>可以內用、外帶或宅配嗎？</summary><p>示範規則：現做餐點可內用或外帶；冷凍商品可外帶或宅配；兩者同車時僅提供外帶。正式規則<span class="pending">待確認</span></p></details>
+        <details><summary>冷凍鍋貼怎麼保存與煎煮？</summary><p>請依產品包裝標示。保存期限與烹調時間<span class="pending">待確認</span></p></details>
+        <details><summary>宅配的運費與到貨時間？</summary><p>運費、可配送地區與到貨時間<span class="pending">待確認</span></p></details>
+        <details><summary>需要預約座位嗎？</summary><p>預約規則與取消方式<span class="pending">待確認</span>，請先與門市聯絡。</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 8. 聯絡與頁尾 -->
+<footer class="foot" id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top">炙餃座<i aria-hidden="true">.</i></a>
+        <p class="note" style="margin-top:8px">從鍋貼吃到高級料理。</p>
+      </div>
+      <div>
+        <h3>聯絡我們</h3>
+        <ul>
+          <li>電話：02-0000-0000（示例）</li>
+          <li>Email：hello@example.com（示例）</li>
+        </ul>
+        <div class="social" id="social"></div>
+      </div>
+      <div>
+        <h3>電子報 <span class="stamp">訂閱示範</span></h3>
+        <form class="news" id="newsForm" novalidate>
+          <label class="sr-only" for="newsEmail">Email</label>
+          <input id="newsEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" aria-describedby="newsMsg">
+          <button class="btn btn-primary" type="submit">訂閱 <span class="arr" aria-hidden="true">→</span></button>
+        </form>
+        <p id="newsMsg" role="status" aria-live="polite"></p>
+        <p class="note" style="margin-top:6px">此表單僅為畫面示範，不會儲存或寄出資料。</p>
+      </div>
+    </div>
+    <div class="copy"><span>© 炙餃座 示範網站，版權所有。</span><span id="privacy"></span></div>
+  </div>
+</footer>
+
+<!-- 購物車抽屜 -->
+<div class="veil" id="veil" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-title" aria-hidden="true">
+  <div class="dr-head"><h2 id="dr-title">購物車</h2><button class="iconbtn" id="cartClose" type="button" aria-label="關閉購物車"><i data-lucide="x" class="icon"></i></button></div>
+  <div class="dr-body" id="drBody"></div>
+  <div class="dr-foot">
+    <div class="total"><span>總金額</span><b id="drTotal">NT$0</b></div>
+    <button class="btn btn-primary" id="checkoutBtn" type="button" style="width:100%" disabled>前往結帳 <span class="arr" aria-hidden="true">→</span></button>
+  </div>
+</aside>
+
+<!-- 模擬結帳視窗 -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="co-title" hidden>
+  <div class="modal-box">
+    <div class="modal-head"><h2 id="co-title">訂單確認 <span class="stamp">模擬訂單</span></h2><button class="iconbtn" id="coClose" type="button" aria-label="關閉結帳視窗"><i data-lucide="x" class="icon"></i></button></div>
+    <div class="modal-body" id="coBody"></div>
+  </div>
+</div>
+<!-- 虛擬店長：加入購物車時接單、點擊可請他推薦 -->
+<div class="keeper" id="keeper" data-pose="greet">
+  <div class="bubble" id="bubble" hidden>
+    <button class="bubble-x" id="bubbleX" type="button" aria-label="關閉店長對話">×</button>
+    <p class="bubble-who">店長</p>
+    <p id="bubbleText" aria-live="polite"></p>
+    <div class="bubble-act" id="bubbleAct"></div>
+  </div>
+  <button class="keeper-btn" id="keeperBtn" type="button" aria-label="和虛擬店長聊聊，請他推薦餐點" aria-controls="bubble" aria-expanded="false">
+    <span class="keeper-frame"></span><span class="keeper-pop"><img class="keeper-img" id="keeperImg" src="assets/keeper-greet.png" alt="" width="360" height="360" decoding="async"></span>
+  </button>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =====================================================
+   資料區：商品、專題、門市、外部連結（正式資料請改這裡）
+   ===================================================== */
+// 商品。frozen:true 為冷凍商品（影響取餐方式）；demo:true 表示照片僅為示意
+const PRODUCTS = [
+  { id:'pot-pork',   cat:'pot',  name:'豬肉高麗菜鍋貼', desc:'底面煎到焦脆，咬開是多汁豬肉和帶清甜的高麗菜。', price:120, unit:'8 顆', img:'assets/pork.jpg', pos:'center 58%' },
+  { id:'pot-shrimp', cat:'pot',  name:'鮮蝦青蔥鍋貼',   desc:'蝦肉彈嫩，青蔥帶出香氣，配上薄脆的煎底。',       price:160, unit:'8 顆', img:'assets/shrimp.jpg', pos:'center' },
+  { id:'pot-mush',   cat:'pot',  name:'香菇高麗菜鍋貼', desc:'香菇香氣厚實，高麗菜保留清脆口感。',             price:110, unit:'8 顆', img:'assets/mushroom.jpg', pos:'center' },
+  { id:'dum-chive',  cat:'dum',  name:'韭菜豬肉水餃',   desc:'水煮後皮面光滑有彈性，韭菜香氣直接。',           price:110, unit:'10 顆', img:'assets/pork.jpg', pos:'center 40%', demo:true },
+  { id:'dum-cab',    cat:'dum',  name:'高麗菜鮮肉水餃', desc:'內餡清爽多汁，沾醋或辣油都合適。',               price:100, unit:'10 顆', img:'assets/mushroom.jpg', pos:'center', demo:true },
+  { id:'dum-shrimp', cat:'dum',  name:'蝦仁玉米水餃',   desc:'蝦仁咬得到顆粒感，玉米帶一點甜。',               price:150, unit:'10 顆', img:'assets/shrimp.jpg', pos:'center 60%', demo:true },
+  { id:'dr-sour',    cat:'soup', name:'酸辣湯',         desc:'酸得開胃、辣得溫和，配鍋貼剛剛好。',             price:60,  unit:'1 碗', glyph:'湯' },
+  { id:'dr-corn',    cat:'soup', name:'玉米濃湯',       desc:'玉米粒多、口感濃稠，適合搭配煎物。',             price:55,  unit:'1 碗', glyph:'玉' },
+  { id:'dr-tea',     cat:'soup', name:'冰鎮麥茶',       desc:'烘焙香氣的冰麥茶，吃完煎物來一杯解膩。',         price:40,  unit:'1 杯', glyph:'茶' },
+  { id:'sd-cuc',     cat:'side', name:'涼拌小黃瓜',     desc:'拍碎的小黃瓜拌蒜香醬汁，清爽解膩。',             price:50,  unit:'1 份', glyph:'瓜' },
+  { id:'sd-egg',     cat:'side', name:'滷蛋',           desc:'醬色均勻，蛋黃保持微軟。',                       price:25,  unit:'1 顆', glyph:'蛋' },
+  { id:'sd-kim',     cat:'side', name:'辣味泡菜',       desc:'酸辣脆口，和鍋貼一起吃很開胃。',                 price:55,  unit:'1 份', glyph:'菜', tag:'辣' },
+  // 冷凍禮盒
+  { id:'gift-50', cat:'gift', frozen:true, name:'招牌鍋貼禮盒 50 入', desc:'豬肉高麗菜為主，適合分送或家庭聚餐。', price:680, unit:'50 入／盒', img:'assets/hero.jpg', pos:'center 55%' },
+  { id:'gift-30', cat:'gift', frozen:true, name:'家庭組 30 入',       desc:'三種口味各 10 入，方便一次嚐完。',     price:420, unit:'30 入／盒', img:'assets/mushroom.jpg', pos:'center' },
+];
+const BY_ID = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
+const CATS = [ {id:'pot',label:'招牌鍋貼'}, {id:'dum',label:'精選水餃'}, {id:'soup',label:'湯品／飲料'}, {id:'side',label:'經典小菜'} ];
+
+// 熱門餐點專題（action：cat:分類 或 gift）
+const PAGES = [
+  { title:'招牌鍋貼', img:'assets/hero.jpg', pos:'50% 56%', alt:'金黃焦脆的招牌鍋貼', demo:false,
+    body:'底面煎出一層薄薄的焦脆，咬開是高麗菜的清甜和豬肉的湯汁。三種餡料各點一份，輪流比較最有趣。', cta:'點招牌鍋貼', action:'cat:pot' },
+  { title:'精選水餃', img:'assets/pork.jpg', pos:'center 45%', alt:'內餡飽滿的水餃示意', demo:true,
+    body:'水煮後皮面光滑、咬下去有彈性。內餡走清爽路線，沾一點醋和辣油就很夠味。', cta:'看精選水餃', action:'cat:dum' },
+  { title:'冷凍禮盒', img:'assets/story.jpg', pos:'center', alt:'鍋貼在煎台上煎製的畫面', demo:true,
+    body:'把鍋貼帶回家。送禮或家庭聚餐都方便，保存與烹調方式請依產品包裝標示。', cta:'看冷凍禮盒', action:'gift' },
+];
+
+// 門市（示例）。mapUrl／uberUrl／pandaUrl 提供 https 網址後才會啟用連結
+const STORES = [
+  { id:'flag', name:'旗艦店', addr:'台北市中正區示例路 1 號（示例）', tel:'02-0000-0001', hours:'11:30–14:30、17:30–21:30（示例）', mapUrl:'', uberUrl:'', pandaUrl:'' },
+  { id:'xinyi', name:'信義店', addr:'台北市信義區示例街 88 號（示例）', tel:'02-0000-0002', hours:'11:00–21:00（示例）', mapUrl:'', uberUrl:'', pandaUrl:'' },
+];
+
+// 社群與政策連結；未提供顯示「待提供」
+const LINKS = { IG:'', Facebook:'', LINE:'', privacy:'' };
+
+/* =====================================================
+   工具
+   ===================================================== */
+const $ = id => document.getElementById(id);
+const money = n => 'NT$' + n.toLocaleString('en-US');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+const isHttp = u => { try { const x = new URL(u); return x.protocol === 'https:' || x.protocol === 'http:'; } catch { return false; } };
+const icons = () => { if (window.lucide) lucide.createIcons(); };
+function scrollToEl(el){ el.scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth', block: 'start' }); }
+
+// 圖片載入失敗：保留版面並顯示文字備援
+document.addEventListener('error', e => {
+  const t = e.target;
+  if (t.tagName === 'IMG' && t.parentElement && (t.parentElement.classList.contains('ph') || t.parentElement.classList.contains('scene-stage'))) t.parentElement.classList.add('fail');
+}, true);
+
+let toastT;
+function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2000); }
+
+function focusables(root){ return [...root.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])')].filter(e => !e.closest('[hidden]') && e.offsetParent !== null); }
+function trapTab(e, root){
+  if (e.key !== 'Tab') return;
+  const f = focusables(root); if (!f.length) return;
+  const first = f[0], last = f[f.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+}
+
+/* =====================================================
+   導覽
+   ===================================================== */
+const menuBtn = $('menuBtn'), mnav = $('mnav');
+function setMenu(open){ menuBtn.setAttribute('aria-expanded', open); menuBtn.setAttribute('aria-label', open ? '收合選單' : '展開選單'); mnav.hidden = !open; }
+menuBtn.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
+mnav.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuBtn.getAttribute('aria-expanded') === 'true') { setMenu(false); menuBtn.focus(); } });
+matchMedia('(min-width:1024px)').addEventListener('change', () => setMenu(false));
+
+/* =====================================================
+   購物車狀態（localStorage 保存商品 ID 與數量）
+   ===================================================== */
+const KEY = 'zjz-cart-v2';
+let cart = {};
+try {
+  const raw = JSON.parse(localStorage.getItem(KEY) || '{}');
+  for (const [id, q] of Object.entries(raw)) if (BY_ID[id] && Number.isInteger(q) && q > 0) cart[id] = Math.min(q, 99);
+} catch { cart = {}; }
+const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch { /* 無法儲存時仍可使用 */ } };
+const cartItems = () => Object.entries(cart).map(([id, qty]) => ({ p: BY_ID[id], qty }));
+const cartCount = () => cartItems().reduce((s, i) => s + i.qty, 0);
+const cartTotal = () => cartItems().reduce((s, i) => s + i.p.price * i.qty, 0);
+
+function addToCart(id, btn){
+  cart[id] = Math.min((cart[id] || 0) + 1, 99); persist(); renderCart();
+  if (btn) { flyToCart(btn); buttonDone(btn); }
+  keeperTakeOrder(id);
+}
+function setQty(id, q){
+  const had = cartItems().length;
+  if (q <= 0) delete cart[id]; else cart[id] = Math.min(q, 99); persist(); renderCart();
+  if (had && !cartItems().length) keeperSay('購物車清空了。要不要我推薦幾樣？', [{ label:'好啊，推薦一下', fn: keeperRecommend }], { pose:'offer' });
+}
+
+function renderCart(){
+  const n = cartCount();
+  const badge = $('cartCount'); badge.textContent = n; badge.classList.toggle('zero', n === 0);
+  $('cartOpen').setAttribute('aria-label', `開啟購物車，目前 ${n} 件`);
+  const body = $('drBody');
+  const items = cartItems();
+  if (!items.length){
+    body.innerHTML = '<div class="empty"><img class="keeper-cameo" src="assets/keeper-offer.png" alt="" width="120" height="120"><p>購物車還是空的，<br>店長等你點菜喔！</p><button class="btn btn-primary" type="button" id="emptyGo">返回點餐區 <span class="arr" aria-hidden="true">→</span></button></div>';
+  } else {
+    body.innerHTML = items.map(({p, qty}) => `
+      <div class="line" data-id="${p.id}">
+        <div><div class="nm">${esc(p.name)}</div><div class="unit">${money(p.price)}／${esc(p.unit)}${p.frozen ? '・冷凍' : ''}</div></div>
+        <div class="sub">${money(p.price * qty)}</div>
+        <div class="ctl">
+          <div class="qty" role="group" aria-label="${esc(p.name)}數量">
+            <button type="button" data-q="-1" aria-label="減少${esc(p.name)}"><i data-lucide="minus" class="icon"></i></button>
+            <output>${qty}</output>
+            <button type="button" data-q="1" aria-label="增加${esc(p.name)}"><i data-lucide="plus" class="icon"></i></button>
+          </div>
+          <button class="tlink" type="button" data-rm="1" aria-label="移除${esc(p.name)}">移除</button>
+        </div>
+      </div>`).join('');
+  }
+  $('drTotal').textContent = money(cartTotal());
+  $('checkoutBtn').disabled = items.length === 0;
+  icons();
+}
+
+/* 抽屜與焦點管理 */
+let drawerOpener = null;
+function openDrawer(){
+  drawerOpener = document.activeElement;
+  $('veil').hidden = false; requestAnimationFrame(() => $('veil').classList.add('on'));
+  const d = $('drawer'); d.classList.add('on'); d.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('lock');
+  setTimeout(() => $('cartClose').focus(), 30);
+}
+function closeDrawer(restore = true){
+  const d = $('drawer'); if (!d.classList.contains('on')) return;
+  d.classList.remove('on'); d.setAttribute('aria-hidden', 'true');
+  $('veil').classList.remove('on'); setTimeout(() => { if (!d.classList.contains('on')) $('veil').hidden = true; }, 220);
+  document.body.classList.remove('lock');
+  if (restore && drawerOpener && document.contains(drawerOpener)) drawerOpener.focus();
+}
+$('cartOpen').addEventListener('click', openDrawer);
+$('cartClose').addEventListener('click', () => closeDrawer());
+$('veil').addEventListener('click', () => closeDrawer());
+$('drawer').addEventListener('keydown', e => { if (e.key === 'Escape') { e.stopPropagation(); closeDrawer(); } else trapTab(e, $('drawer')); });
+$('drBody').addEventListener('click', e => {
+  if (e.target.closest('#emptyGo')) { closeDrawer(false); scrollToEl($('order')); return; }
+  const line = e.target.closest('.line'); if (!line) return;
+  const id = line.dataset.id;
+  const q = e.target.closest('[data-q]');
+  if (q) setQty(id, (cart[id] || 0) + Number(q.dataset.q));
+  else if (e.target.closest('[data-rm]')) setQty(id, 0);
+  // 重新渲染後，焦點回到同一商品的操作區，避免遺失
+  const again = $('drBody').querySelector(`.line[data-id="${id}"] [data-q="${q ? q.dataset.q : '1'}"]`);
+  if (again) again.focus(); else $('cartClose').focus();
+});
+
+/* =====================================================
+   線上點餐：分類 Tab 與商品
+   ===================================================== */
+let curCat = 'pot';
+function productCard(p){
+  const media = p.img
+    ? `<div class="ph" data-alt="${esc(p.name)}"><img src="${p.img}" alt="${esc(p.name)}${p.demo ? '（示意照）' : ''}" loading="lazy" width="600" height="450" style="object-position:${p.pos || 'center'}">${p.demo ? '<span class="tag">示意圖</span>' : ''}</div>`
+    : `<div class="ph" role="img" aria-label="${esc(p.name)}，暫無照片"><span class="glyph" aria-hidden="true">${p.glyph}</span><span class="tag">示意圖</span></div>`;
+  return `<article class="prod">${media}
+    <h3>${esc(p.name)}${p.tag ? `<span class="chiptag">${esc(p.tag)}</span>` : ''}</h3>
+    <p class="desc">${esc(p.desc)}</p>
+    <div class="row"><span class="price">${money(p.price)} <small>／${esc(p.unit)}</small></span>
+    <button class="btn btn-primary" type="button" data-add="${p.id}" aria-label="加入購物車：${esc(p.name)}">加入購物車</button></div></article>`;
+}
+function renderTabs(){
+  $('tabs').innerHTML = CATS.map(c => `<button class="tab" role="tab" id="tab-${c.id}" type="button" data-cat="${c.id}" aria-selected="${c.id === curCat}" aria-controls="menuPanel" tabindex="${c.id === curCat ? 0 : -1}">${c.label}</button>`).join('');
+}
+function renderMenu(){
+  $('menuPanel').setAttribute('aria-labelledby', 'tab-' + curCat);
+  $('menuPanel').innerHTML = PRODUCTS.filter(p => p.cat === curCat).map(productCard).join('');
+}
+function setCat(id, focusTab){
+  curCat = id; renderTabs(); renderMenu();
+  const t = $('tab-' + id);
+  if (t) { if (focusTab) t.focus(); t.scrollIntoView({ inline: 'nearest', block: 'nearest' }); }
+}
+$('tabs').addEventListener('click', e => { const t = e.target.closest('[data-cat]'); if (t) setCat(t.dataset.cat, false); });
+$('tabs').addEventListener('keydown', e => {
+  const i = CATS.findIndex(c => c.id === curCat); let n = i;
+  if (e.key === 'ArrowRight') n = (i + 1) % CATS.length;
+  else if (e.key === 'ArrowLeft') n = (i - 1 + CATS.length) % CATS.length;
+  else if (e.key === 'Home') n = 0; else if (e.key === 'End') n = CATS.length - 1; else return;
+  e.preventDefault(); setCat(CATS[n].id, true);
+});
+document.addEventListener('click', e => { const b = e.target.closest('[data-add]'); if (b) addToCart(b.dataset.add, b); });
+
+/* 冷凍禮盒 */
+$('giftList').innerHTML = PRODUCTS.filter(p => p.cat === 'gift').map(p => `
+  <li><h3>${esc(p.name)}</h3><span class="price">${money(p.price)}</span>
+  <p class="meta">${esc(p.unit)}・${esc(p.desc)}保存與烹調：請依產品包裝標示。</p>
+  <button class="btn btn-primary" type="button" data-add="${p.id}" aria-label="加入購物車：${esc(p.name)}">加入購物車</button></li>`).join('');
+
+/* =====================================================
+   熱門餐點：雜誌翻頁
+   ===================================================== */
+let cur = 0, flipping = false;
+const desktopMQ = matchMedia('(min-width:768px)');
+const paneL = $('paneL'), paneR = $('paneR'), spread = $('spread');
+
+const photoHTML = p => `<div class="ph mag-photo" data-alt="${esc(p.alt)}"><img src="${p.img}" alt="${esc(p.alt)}" style="object-position:${p.pos}" loading="lazy">${p.demo ? '<span class="tag">示意圖</span>' : ''}</div>`;
+const textHTML = (p, i, live) => `<div class="mag-text"><p class="no">${i + 1} / ${PAGES.length}</p><h3>${esc(p.title)}</h3><p class="body">${esc(p.body)}</p>${live ? `<a class="tlink" href="#" data-act="${p.action}">${esc(p.cta)} →</a>` : `<span class="tlink">${esc(p.cta)} →</span>`}</div>`;
+const bothHTML = (p, i, live) => `<div class="both">${photoHTML(p)}${textHTML(p, i, live)}</div>`;
+
+function renderStatic(i){
+  const p = PAGES[i];
+  if (desktopMQ.matches){ paneL.innerHTML = photoHTML(p); paneR.innerHTML = textHTML(p, i, true); }
+  else { paneL.innerHTML = bothHTML(p, i, true); paneR.innerHTML = ''; }
+}
+function updateCtrl(){
+  $('prevBtn').disabled = cur === 0; $('nextBtn').disabled = cur === PAGES.length - 1;
+  $('pageNo').textContent = `${cur + 1} / ${PAGES.length}`;
+  $('magLive').textContent = `第 ${cur + 1} 頁，共 ${PAGES.length} 頁：${PAGES[cur].title}`;
+}
+function makeLeaf(dir, frontHTML, backHTML){
+  const leaf = document.createElement('div');
+  leaf.className = 'leaf ' + (dir > 0 ? 'next' : 'prev');
+  leaf.setAttribute('aria-hidden', 'true'); leaf.inert = true; // 翻頁中的複本不可被巡覽
+  leaf.innerHTML = `<div class="face front">${frontHTML}</div><div class="face back">${backHTML}</div><span class="edge"></span>`;
+  return leaf;
+}
+function flip(dir){
+  const to = cur + dir;
+  if (flipping || to < 0 || to >= PAGES.length) return;
+  const from = cur; cur = to; updateCtrl();
+  if (reduced.matches){ renderStatic(to); [paneL, paneR].forEach(p => { p.classList.remove('fadein'); void p.offsetWidth; p.classList.add('fadein'); }); return; }
+  flipping = true;
+  const desk = desktopMQ.matches, o = PAGES[from], n = PAGES[to];
+  let leaf, finish;
+  if (desk && dir > 0){            // 向後翻：右頁沿書脊翻向左
+    paneR.innerHTML = textHTML(n, to, true);
+    leaf = makeLeaf(1, textHTML(o, from, false), photoHTML(n));
+    finish = () => { paneL.innerHTML = photoHTML(n); };
+  } else if (desk){                 // 向前翻：左頁沿書脊翻向右（方向相反）
+    paneL.innerHTML = photoHTML(n);
+    leaf = makeLeaf(-1, photoHTML(o), textHTML(n, to, false));
+    finish = () => { paneR.innerHTML = textHTML(n, to, true); };
+  } else {                          // 手機單頁：從頁邊翻轉，背面為空白紙面
+    paneL.innerHTML = bothHTML(n, to, true);
+    leaf = makeLeaf(dir, bothHTML(o, from, false), '');
+    finish = () => {};
+  }
+  spread.appendChild(leaf);
+  void leaf.offsetWidth;
+  leaf.classList.add('go');
+  setTimeout(() => { finish(); leaf.remove(); flipping = false; }, 410);
+}
+$('prevBtn').addEventListener('click', () => flip(-1));
+$('nextBtn').addEventListener('click', () => flip(1));
+$('mag').addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') { e.preventDefault(); flip(1); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); flip(-1); }
+});
+// 手機左右滑動：明確橫向手勢才翻頁
+let tx = 0, ty = 0, tOn = false;
+spread.addEventListener('touchstart', e => { const t = e.touches[0]; tx = t.clientX; ty = t.clientY; tOn = true; }, { passive: true });
+spread.addEventListener('touchend', e => {
+  if (!tOn) return; tOn = false;
+  const t = e.changedTouches[0], dx = t.clientX - tx, dy = t.clientY - ty;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) flip(dx < 0 ? 1 : -1);
+}, { passive: true });
+// 專題連結：跳至點餐分類或禮盒
+$('mag').addEventListener('click', e => {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  e.preventDefault();
+  const act = a.dataset.act;
+  if (act === 'gift') scrollToEl($('gift'));
+  else { setCat(act.split(':')[1], false); scrollToEl($('order')); }
+});
+desktopMQ.addEventListener('change', () => { if (!flipping) renderStatic(cur); });
+
+/* =====================================================
+   門市
+   ===================================================== */
+let curStore = 0;
+function linkOrOff(url, label){ return isHttp(url) ? `<a class="btn btn-ghost" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${label}</a>` : `<span class="off">${label}：待提供</span>`; }
+function renderStore(){
+  const s = STORES[curStore];
+  $('storeTabs').innerHTML = STORES.map((x, i) => `<button class="pill" type="button" data-store="${i}" aria-pressed="${i === curStore}">${esc(x.name)}</button>`).join('');
+  $('storeInfo').innerHTML = `<div><dt>門市</dt><dd>${esc(s.name)}（示例）</dd></div><div><dt>地址</dt><dd>${esc(s.addr)}</dd></div><div><dt>電話</dt><dd>${esc(s.tel)}</dd></div><div><dt>營業時間</dt><dd>${esc(s.hours)}</dd></div>`;
+  $('storeLinks').innerHTML = linkOrOff(s.mapUrl, '在 Google Maps 開啟') + linkOrOff(s.uberUrl, 'Uber Eats') + linkOrOff(s.pandaUrl, 'foodpanda');
+  $('pinName').textContent = s.name;
+  icons();
+}
+$('storeTabs').addEventListener('click', e => { const b = e.target.closest('[data-store]'); if (b){ curStore = Number(b.dataset.store); renderStore(); $('storeTabs').querySelector(`[data-store="${curStore}"]`).focus(); } });
+
+/* =====================================================
+   頁尾：社群、隱私、電子報
+   ===================================================== */
+$('social').innerHTML = Object.entries(LINKS).filter(([k]) => k !== 'privacy').map(([k, u]) => isHttp(u) ? `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${k}</a>` : `<span>${k}（待提供）</span>`).join('');
+$('privacy').innerHTML = isHttp(LINKS.privacy) ? `<a class="tlink" href="${esc(LINKS.privacy)}" target="_blank" rel="noopener noreferrer">隱私權政策</a>` : '隱私權政策（待提供）';
+
+$('newsForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const inp = $('newsEmail'), msg = $('newsMsg'), v = inp.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){
+    inp.setAttribute('aria-invalid', 'true'); msg.className = 'err'; msg.textContent = '請輸入有效的 Email，例如 you@example.com。'; inp.focus(); return;
+  }
+  inp.removeAttribute('aria-invalid'); msg.className = 'ok'; msg.textContent = '訂閱示範完成'; inp.value = '';
+});
+
+/* =====================================================
+   模擬結帳
+   ===================================================== */
+let coOpener = null;
+const PHONE_RE = /^0\d{8,9}$/;
+function rules(){
+  const items = cartItems();
+  const frozen = items.some(i => i.p.frozen), fresh = items.some(i => !i.p.frozen);
+  if (frozen && fresh) return { opts:['takeout'], note:'購物車同時有現做餐點與冷凍商品，示範規則僅提供外帶。' };
+  if (frozen) return { opts:['takeout','delivery'], note:'冷凍商品可選外帶或宅配。' };
+  return { opts:['dine','takeout'], note:'現做餐點可選內用或外帶。' };
+}
+const METHOD = { dine:'內用', takeout:'外帶', delivery:'宅配' };
+
+function openCheckout(){
+  if (!cartItems().length) return;
+  coOpener = $('checkoutBtn');
+  closeDrawer(false);
+  const r = rules();
+  const sum = cartItems().map(({p, qty}) => `<li><span>${esc(p.name)} × ${qty}</span><span>${money(p.price * qty)}</span></li>`).join('') + `<li class="t"><span>總金額</span><span>${money(cartTotal())}</span></li>`;
+  $('coBody').innerHTML = `
+    <ul class="sum" aria-label="訂單商品">${sum}</ul>
+    <form id="coForm" novalidate>
+      <fieldset class="fset"><legend>取餐方式</legend>
+        <p class="rule">${r.note}</p>
+        ${r.opts.map((m, i) => `<label class="radio"><input type="radio" name="method" value="${m}" ${i === 0 ? 'checked' : ''}> ${METHOD[m]}</label>`).join('')}
+      </fieldset>
+      <div class="fld"><label for="f-name">姓名</label><input id="f-name" name="name" autocomplete="name" aria-describedby="e-name"><p class="err" id="e-name" hidden></p></div>
+      <div class="fld"><label for="f-tel">手機或電話</label><input id="f-tel" name="tel" inputmode="tel" autocomplete="tel" placeholder="例如 0912345678" aria-describedby="e-tel"><p class="err" id="e-tel" hidden></p></div>
+      <div class="fld" id="w-store"><label for="f-store">取餐門市</label><select id="f-store" name="store" aria-describedby="e-store"><option value="">請選擇門市</option>${STORES.map(s => `<option value="${esc(s.name)}">${esc(s.name)}（示例）</option>`).join('')}</select><p class="err" id="e-store" hidden></p></div>
+      <div class="fld" id="w-addr" hidden><label for="f-addr">收件地址</label><input id="f-addr" name="addr" autocomplete="street-address" aria-describedby="e-addr"><p class="err" id="e-addr" hidden></p></div>
+      <p class="note" style="margin-bottom:14px">姓名、電話與地址僅用於這次結帳畫面，不會儲存或送出。</p>
+      <button class="btn btn-primary" type="submit" style="width:100%">建立示範訂單 <span class="arr" aria-hidden="true">→</span></button>
+    </form>`;
+  const m = $('modal'); m.hidden = false; document.body.classList.add('lock');
+  syncMethod();
+  $('coForm').addEventListener('change', e => { if (e.target.name === 'method') syncMethod(); });
+  $('coForm').addEventListener('submit', submitCheckout);
+  m.scrollTop = 0;
+  setTimeout(() => $('f-name').focus(), 30);
+  icons();
+}
+const method = () => { const c = $('coForm').querySelector('input[name="method"]:checked'); return c ? c.value : 'takeout'; };
+function syncMethod(){
+  const del = method() === 'delivery';
+  $('w-store').hidden = del; $('w-addr').hidden = !del;
+  ['store','addr'].forEach(k => setErr(k, '')); // 切換方式時清除不相關欄位的錯誤
+}
+function setErr(k, msg){
+  const e = $('e-' + k), f = $('f-' + k); if (!e || !f) return;
+  e.textContent = msg; e.hidden = !msg;
+  if (msg) f.setAttribute('aria-invalid', 'true'); else f.removeAttribute('aria-invalid');
+}
+function submitCheckout(ev){
+  ev.preventDefault();
+  const del = method() === 'delivery';
+  const name = $('f-name').value.trim(), tel = $('f-tel').value.replace(/[\s-]/g, ''), store = $('f-store').value, addr = $('f-addr').value.trim();
+  const bad = [];
+  setErr('name', name ? '' : (bad.push('name'), '請填寫姓名。'));
+  setErr('tel', PHONE_RE.test(tel) ? '' : (bad.push('tel'), '請輸入 9–10 碼電話，例如 0912345678。'));
+  if (!del) setErr('store', store ? '' : (bad.push('store'), '請選擇取餐門市。'));
+  if (del) setErr('addr', addr.length >= 6 ? '' : (bad.push('addr'), '請填寫完整收件地址。'));
+  if (bad.length){ $('f-' + bad[0]).focus(); return; }
+
+  const items = cartItems(), total = cartTotal(), mth = method();
+  const no = 'DEMO-' + Date.now().toString().slice(-6);
+  justOrdered = name;
+  $('coBody').innerHTML = `<div class="done" tabindex="-1" id="doneBox">
+    <span class="seal" aria-hidden="true">示範<br>完成</span>
+    <div class="cat-stage" id="doneCat" aria-hidden="true"><div class="cat-layer"></div></div>
+
+    <h3>示範訂單已建立</h3>
+    <p class="note" style="margin-bottom:14px">這是模擬訂單，沒有實際送出或收款。編號 ${no}</p>
+    <ul class="sum">${items.map(({p, qty}) => `<li><span>${esc(p.name)} × ${qty}</span><span>${money(p.price * qty)}</span></li>`).join('')}<li class="t"><span>總金額</span><span>${money(total)}</span></li></ul>
+    <p>取餐方式：${METHOD[mth]}${del ? '' : '　門市：' + esc(store)}</p>
+    ${del ? `<p>收件地址：${esc(addr)}</p>` : ''}
+    <p>聯絡人：${esc(name)}　${esc(tel)}</p>
+    <button class="btn btn-primary" type="button" id="doneClose" style="margin-top:18px">完成</button></div>`;
+  cart = {}; persist(); renderCart();
+  $('doneBox').focus();
+  runDoneCat();
+}
+function closeCheckout(){
+  if ($('modal').hidden) return;
+  $('modal').hidden = true; $('coBody').innerHTML = ''; document.body.classList.remove('lock');
+  const o = coOpener && document.contains(coOpener) && !coOpener.disabled ? coOpener : $('cartOpen');
+  o.focus();
+  if (justOrdered) { keeperSay(`謝謝 <b>${esc(justOrdered)}</b>！示範訂單已建立，下次見～`, [], { shout:'謝謝光臨！', pose:'bow', hold: 4200 }); justOrdered = ''; }
+}
+let justOrdered = '';
+
+/* =====================================================
+   虛擬店長：接單對話、推薦組合
+   ===================================================== */
+const keeper = $('keeper'), bubble = $('bubble'), keeperBtn = $('keeperBtn');
+const KEEPER_OFF = 'zjz-keeper-off';
+let keeperOff = false, bubbleT, flags = { many:false, mixed:false };
+try { keeperOff = localStorage.getItem(KEEPER_OFF) === '1'; } catch {}
+keeper.classList.toggle('off', keeperOff);
+
+// 各分類的接單台詞，{n} 會換成品名
+const LINES = {
+  pot:  ['<b>{n}</b> 一份！煎台熱好了，底會煎得很脆。', '好的，<b>{n}</b>！等等起鍋那一下最香。'],
+  dum:  ['<b>{n}</b>，水滾了就下鍋～', '收到，<b>{n}</b> 一份，沾醋很對味喔。'],
+  soup: ['<b>{n}</b> 來囉，配鍋貼剛剛好。', '<b>{n}</b> 記下了！'],
+  side: ['<b>{n}</b>，小菜先上！', '加一份 <b>{n}</b>，解膩剛好。'],
+  gift: ['<b>{n}</b> 收到！冷凍商品可以外帶或宅配。', '<b>{n}</b>，帶回家慢慢吃～'],
+};
+const SHOUTS = ['好喔～馬上來！', '一份～！', '收到！', '來囉～'];
+const pick = a => a[Math.floor(Math.random() * a.length)];
+
+// 店長四種動作：greet 揮手招呼、offer 伸手介紹、thumb 比讚、bow 鞠躬道謝
+const POSES = { greet:'assets/keeper-greet.png', offer:'assets/keeper-offer.png', thumb:'assets/keeper-thumb.png', bow:'assets/keeper-bow.png' };
+Object.values(POSES).forEach(src => { const i = new Image(); i.src = src; }); // 預先載入，切換不閃爍
+let poseT;
+function setPose(name, holdMs){
+  const img = $('keeperImg');
+  clearTimeout(poseT);
+  if (keeper.dataset.pose !== name) { keeper.dataset.pose = name; img.src = POSES[name]; }
+  poseT = holdMs ? setTimeout(() => { poseT = null; setPose('greet'); }, holdMs) : null;
+}
+function keeperAnimate(){
+  if (reduced.matches) return;
+  keeper.classList.remove('nod'); void keeper.offsetWidth; keeper.classList.add('nod');
+  setTimeout(() => keeper.classList.remove('nod'), 600);
+}
+function shout(text){
+  if (reduced.matches) return;
+  const r = keeperBtn.getBoundingClientRect();
+  const s = document.createElement('span');
+  s.className = 'shout'; s.textContent = text; s.setAttribute('aria-hidden', 'true');
+  s.style.left = (r.left + 6) + 'px'; s.style.top = (r.top - 22) + 'px';
+  document.body.appendChild(s); setTimeout(() => s.remove(), 950);
+}
+function hideBubble(){ bubble.hidden = true; keeperBtn.setAttribute('aria-expanded', 'false'); clearTimeout(bubbleT); if (!poseT) setPose('greet'); }
+// html 只會傳入程式內組好的字串（使用者輸入已先 esc）
+function keeperSay(html, actions = [], opt = {}){
+  // 店長收起、讓位中，或抽屜／結帳視窗開著時，改用 Toast 顯示
+  if (keeperOff || keeper.classList.contains('dodge') || document.body.classList.contains('lock')) { toast(html.replace(/<br>/g, ' ').replace(/<[^>]+>/g, '')); return; }
+  $('bubbleText').innerHTML = html;
+  const act = $('bubbleAct'); act.innerHTML = '';
+  actions.forEach(a => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = a.ghost ? 'tlink' : 'btn btn-primary'; b.textContent = a.label;
+    b.addEventListener('click', a.fn); act.appendChild(b);
+  });
+  bubble.hidden = false; bubble.style.animation = 'none'; void bubble.offsetWidth; bubble.style.animation = '';
+  keeperBtn.setAttribute('aria-expanded', 'true');
+  setPose(opt.pose || 'greet', opt.hold);
+  keeperAnimate();
+  if (opt.shout) shout(opt.shout);
+  clearTimeout(bubbleT);
+  if (!actions.length) bubbleT = setTimeout(hideBubble, opt.ms || 4200);
+}
+function keeperTakeOrder(id){
+  const p = BY_ID[id], q = cart[id];
+  let msg = q > 1 ? `再加一份 <b>${esc(p.name)}</b>，現在共 ${q} 份！` : pick(LINES[p.cat]).replace('{n}', esc(p.name));
+  const items = cartItems();
+  if (!flags.mixed && items.some(i => i.p.frozen) && items.some(i => !i.p.frozen)) {
+    flags.mixed = true; msg += '<br>提醒一下：現做和冷凍一起結帳的話，這次只能外帶喔。';
+  } else if (!flags.many && cartCount() >= 6) {
+    flags.many = true; msg += '<br>點這麼多，今天是聚餐吧？';
+  }
+  keeperSay(msg, [], { shout: pick(SHOUTS), ms: 3600, pose:'thumb', hold: 2600 });
+}
+let rec = [];
+function keeperRecommend(){
+  const from = c => pick(PRODUCTS.filter(p => p.cat === c));
+  rec = [from('pot'), from('side'), from('soup')];
+  const sum = rec.reduce((s, p) => s + p.price, 0);
+  keeperSay(`今天我推薦：<b>${rec.map(p => esc(p.name)).join('</b>＋<b>')}</b>，合計 ${money(sum)}。`, [
+    { label:'全部加入', fn: () => {
+      rec.forEach(p => { cart[p.id] = Math.min((cart[p.id] || 0) + 1, 99); });
+      persist(); renderCart(); flyToCart(keeperBtn);
+      keeperSay('好的！三樣都幫你記下了，可以到購物車確認。', [{ label:'打開購物車', fn: () => { hideBubble(); openDrawer(); } }], { shout:'三樣～！', pose:'bow' });
+    } },
+    { label:'換一組', ghost:true, fn: keeperRecommend },
+    { label:'收起店長', ghost:true, fn: () => { hideBubble(); setKeeperOff(true); } },
+  ], { pose:'offer' });
+}
+function setKeeperOff(v){
+  keeperOff = v; keeper.classList.toggle('off', v);
+  try { localStorage.setItem(KEEPER_OFF, v ? '1' : '0'); } catch {}
+  if (v) toast('店長去休息了，點左下角可以叫他回來。');
+}
+keeperBtn.addEventListener('click', () => {
+  if (keeperOff) { setKeeperOff(false); keeperSay('我回來了！要不要幫你推薦？', [{ label:'推薦一下', fn: keeperRecommend }]); return; }
+  if (!bubble.hidden && $('bubbleAct').children.length) { hideBubble(); return; }
+  keeperRecommend();
+});
+$('bubbleX').addEventListener('click', () => { hideBubble(); keeperBtn.focus(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !bubble.hidden && !document.body.classList.contains('lock')) hideBubble(); });
+
+/* 加入購物車：鍋貼飛進購物車、按鈕短暫回饋 */
+function flyToCart(fromEl){
+  const target = $('cartOpen'), done = () => { target.classList.remove('bump'); void target.offsetWidth; target.classList.add('bump'); };
+  if (reduced.matches || !fromEl.animate) { done(); return; }
+  const a = fromEl.getBoundingClientRect(), b = target.getBoundingClientRect();
+  const x0 = a.left + a.width / 2, y0 = a.top + a.height / 2, x1 = b.left + b.width / 2, y1 = b.top + b.height / 2;
+  const peak = Math.min(y0, y1) - 80;
+  const el = document.createElement('span'); el.className = 'fly'; el.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(el);
+  el.animate([
+    { transform:`translate(${x0}px,${y0}px) rotate(0) scale(1)` },
+    { transform:`translate(${(x0 + x1) / 2}px,${peak}px) rotate(200deg) scale(1.25)`, offset:.45 },
+    { transform:`translate(${x1}px,${y1}px) rotate(360deg) scale(.35)`, opacity:.7 },
+  ], { duration:700, easing:'cubic-bezier(.45,.05,.4,1)' }).onfinish = () => { el.remove(); done(); };
+}
+function buttonDone(btn){
+  if (btn.classList.contains('added')) return;
+  const old = btn.innerHTML;
+  btn.classList.add('added'); btn.textContent = '已加入 ✓';
+  setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = old; }, 1000);
+}
+
+/* =====================================================
+   店貓：逐幀動畫（每次只顯示一格）
+   幀圖畫布 560×440：腳掌地面線 y=420，前緣（鼻尖或前腳）對齊 x=520，原始朝右。
+   換幀時以「前緣 + 腳掌」為對齊點，大小與位置不跳動。
+   ===================================================== */
+const CAT_SRC = {};
+[1, 2, 3, 4].forEach(n => { CAT_SRC['walk' + n] = `assets/cat-walk-${n}.png`; CAT_SRC['jump' + n] = `assets/cat-jump-${n}.png`; CAT_SRC['rest' + n] = `assets/cat-rest-${n}.png`; }); // rest：探頭、站好、趴下、睡著
+const CAT_RATIO = 440 / 560, CAT_GROUND = 420 / 440, CAT_FRONT = 520 / 560, CAT_BODY = 0.9; // 身體約佔畫布寬 90%
+const WALK = ['walk1', 'walk2', 'walk3', 'walk4'];
+const easeOut = t => 1 - (1 - t) * (1 - t), easeIn = t => t * t;
+const catReady = Promise.all(Object.values(CAT_SRC).map(src => { const i = new Image(); i.src = src; return (i.decode ? i.decode() : Promise.resolve()).catch(() => {}); }));
+
+class ShopCat {
+  constructor(layer, width){
+    this.w = width; this.h = width * CAT_RATIO; this.alive = true; this.cur = null; this.imgs = {};
+    this.el = document.createElement('div'); this.el.className = 'cat';
+    this.el.style.width = this.w + 'px'; this.el.style.height = this.h + 'px';
+    const inner = document.createElement('div'); inner.className = 'cat-inner flip'; // 素材朝右，朝左行走時水平翻轉
+    for (const [k, src] of Object.entries(CAT_SRC)) {
+      const im = document.createElement('img'); im.src = src; im.alt = ''; im.draggable = false; im.decoding = 'async';
+      inner.appendChild(im); this.imgs[k] = im;
+    }
+    const shadow = document.createElement('i'); shadow.className = 'cat-shadow'; // 腳下接觸陰影（只在店內場景顯示）
+    this.el.append(shadow, inner); layer.replaceChildren(this.el);
+    this.inner = inner; this.dir = 'left'; this.s = 1; this.rot = 0;
+    // 吧檯光滑表面的淡倒影（支援的瀏覽器才有）：倒影從腳掌處開始
+    if (layer.closest('.scene')) inner.style.webkitBoxReflect = `below ${(-this.h * (1 - CAT_GROUND)).toFixed(1)}px linear-gradient(transparent 58%, rgba(0,0,0,.2))`;
+  }
+  // 轉向：素材朝右；朝左時水平翻轉
+  face(dir){ this.dir = dir; this.inner.classList.toggle('flip', dir === 'left'); }
+  // 以身體中心 xc、腳掌 g、景深縮放 s 擺放（縮放以前緣腳掌為原點，轉向時身體不跳位）
+  // rot：沿檯面斜度傾斜（度），讓腳掌貼合往後延伸的吧檯
+  placeC(xc, g, s = 1, rot = this.rot){
+    this.xc = xc; this.g = g; this.s = s; this.rot = rot;
+    const fx = this.dir === 'left' ? 1 - CAT_FRONT : CAT_FRONT;
+    const front = this.dir === 'left' ? xc - this.body * s / 2 : xc + this.body * s / 2;
+    this.el.style.transformOrigin = `${(fx * 100).toFixed(2)}% ${(CAT_GROUND * 100).toFixed(2)}%`;
+    this.el.style.transform = `translate3d(${(front - this.w * fx).toFixed(1)}px,${(g - this.h * CAT_GROUND).toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${s.toFixed(3)})`;
+  }
+  show(k){ if (this.cur === k) return; if (this.cur) this.imgs[this.cur].classList.remove('on'); this.imgs[k].classList.add('on'); this.cur = k; }
+  // nx：貓的前緣（朝左時為鼻尖，最左側）；g：腳掌 y。皆為圖層座標
+  place(nx, g){
+    this.nx = nx; this.g = g;
+    const left = nx - this.w * (1 - CAT_FRONT), top = g - this.h * CAT_GROUND;
+    this.el.style.transform = `translate3d(${left.toFixed(1)}px,${top.toFixed(1)}px,0)`;
+  }
+  get body(){ return this.w * CAT_BODY; }
+  step({ to, ms, frames, fps = 8, ease = t => t }){
+    return new Promise(res => {
+      const x0 = this.nx, g0 = this.g, x1 = to ? to[0] : x0, g1 = to ? to[1] : g0, t0 = performance.now();
+      const tick = now => {
+        if (!this.alive) return res();
+        const t = Math.min(1, (now - t0) / ms), e = ease(t);
+        this.place(x0 + (x1 - x0) * e, g0 + (g1 - g0) * e);
+        this.show(frames[Math.floor((now - t0) / 1000 * fps) % frames.length]);
+        if (t < 1) requestAnimationFrame(tick); else res();
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+  async play(steps){ for (const s of steps) { if (!this.alive) return; await this.step(s); } }
+  stop(){ this.alive = false; }
+}
+// 從 (nx0, 地面) 起跳，落在 (nxL, 檯面) 的四格跳躍
+function jumpSteps(nx0, floor, nxL, ledge, small){
+  const dx = nx0 - nxL;
+  return [
+    { ms: 320, frames: ['jump1'] },                                                            // 蹲低蓄力
+    { to: [nx0 - dx * 0.38, floor - (small ? 6 : 12)], ms: 170, frames: ['jump2'], ease: easeOut }, // 斜向起跳
+    { to: [nxL + dx * 0.12, ledge - (small ? 3 : 6)], ms: 190, frames: ['jump3'], ease: easeOut },  // 前腳準備接觸檯面
+    { to: [nxL, ledge], ms: 120, frames: ['jump4'], ease: easeIn },                            // 落地
+    { ms: 260, frames: ['jump4'] },                                                            // 站穩
+  ];
+}
+
+/* 一、首頁迎賓：從照片右側進場，跳上相框下緣，往左走幾步後停住 */
+let heroCat = null, heroFinal = null;
+function heroGeom(){
+  const fig = document.querySelector('.hero-fig'), photo = fig.querySelector('.hero-photo');
+  const bb = parseFloat(getComputedStyle(photo).borderBottomWidth) || 0;
+  const mobile = innerWidth < 768;
+  const left = photo.offsetLeft, width = photo.offsetWidth, right = left + width;
+  const line = photo.offsetTop + photo.offsetHeight - bb + 3;          // 腳掌踩在粗黑相框下緣上
+  const vpRight = document.documentElement.clientWidth - fig.getBoundingClientRect().left; // 可見範圍右界
+  const w = mobile ? 100 : 160;
+  return { mobile, left, width, right, line, vpRight, w };
+}
+function heroPlan(G){
+  const body = G.w * CAT_BODY, walkIn = G.mobile ? 24 : 70;
+  const nx0 = Math.min(G.right + G.w * 0.04, G.vpRight - body - 6 - walkIn);      // 地面蹲點：整隻貓留在可見範圍
+  const nxL = Math.min(G.right - body - 4, nx0 - (G.mobile ? 40 : 90));           // 落在相框右段，避開右側音效字
+  // 往左走幾步就停：手機約 90px、桌機約 170px，且不越過照片左段
+  let nxS = Math.max(G.left + G.width * (G.mobile ? 0.25 : 0.42), nxL - (G.mobile ? 90 : 170));
+  if (nxS > nxL - 30) nxS = nxL - 30;
+  return { nxIn: nx0 + walkIn, nx0, nxL, nxS, floor: G.line + (G.mobile ? 28 : 48), line: G.line };
+}
+function placeHeroFinal(){
+  if (!heroCat) return;
+  const G = heroGeom(), P = heroPlan(G);
+  if (Math.abs(heroCat.w - G.w) > 1) { heroCat.stop(); heroCat = new ShopCat($('heroCat'), G.w); }
+  heroCat.place(P.nxS, P.line); heroCat.show('jump4');
+}
+// force：使用者按「看店貓進場」時，即使開啟減少動態效果也播放
+async function runHeroCat(force = false){
+  if (heroCat) heroCat.stop();
+  const G = heroGeom(), P = heroPlan(G);
+  heroCat = new ShopCat($('heroCat'), G.w);
+  if (reduced.matches && !force) { heroFinal = true; placeHeroFinal(); return; }
+  heroCat.el.classList.add('enter'); heroCat.place(P.nxIn, P.floor); heroCat.show('walk1');
+  requestAnimationFrame(() => heroCat.el.classList.remove('enter'));
+  const walkMs = Math.max(700, (P.nxL - P.nxS) / (G.mobile ? 65 : 85) * 1000);
+  const cat = heroCat;
+  await cat.play([
+    { to: [P.nx0, P.floor], ms: G.mobile ? 420 : 700, frames: WALK, fps: 9 },
+    ...jumpSteps(P.nx0, P.floor, P.nxL, P.line, G.mobile),
+    { to: [P.nxS, P.line], ms: walkMs, frames: WALK, fps: 8 },
+  ]);
+  if (cat === heroCat && cat.alive) { cat.show('jump4'); heroFinal = true; }
+}
+let heroResizeT;
+addEventListener('resize', () => {
+  clearTimeout(heroResizeT);
+  // 尺寸改變時中止動畫，直接把貓放到新版面的停留點
+  heroResizeT = setTimeout(() => {
+    if (heroCat) { heroCat.stop(); heroCat = new ShopCat($('heroCat'), heroGeom().w); heroFinal = true; placeHeroFinal(); }
+    if (sceneCat) { sceneCat.stop(); sceneCat = null; if (scenePlaying) { scenePlaying = false; scenePlay(); } else sceneStill(); }
+  }, 120);
+});
+
+/* 二、店內一景：店貓在吧檯上來回巡視、偶爾趴下睡覺；店長依店貓的動作換姿勢、說話
+   座標依純場景 1672×941 量測：吧檯後緣 (660,650)→(1672,538)，前緣 (50,780)→(1672,590) */
+// 店長台詞以店的經營為主（招呼、煎鍋貼、推薦、外帶與禮盒、道謝），時機仍跟著店貓的動作切換
+const SCENE_LINES = {
+  toward: { pose: 'greet', lines: ['歡迎光臨！吧檯這邊還有位子。', '晚安，今天想吃點什麼？', '裡面請坐，菜單在桌上。'] },
+  away:   { pose: 'thumb', lines: ['這盤剛起鍋，底煎得金黃酥脆！', '鍋貼趁熱吃最好，醬料在桌邊自己加。', '豬肉高麗菜是店裡的招牌口味。'] },
+  invite: { pose: 'offer', lines: ['第一次來？先點一盤招牌鍋貼吧。', '今天推薦鮮蝦青蔥鍋貼，蝦肉很彈。', '要外帶的話，可以先在網站上點餐。', '人多的話，冷凍禮盒帶回家也方便。'] },
+  rest:   { pose: 'bow',   lines: ['謝謝光臨，路上小心！', '謝謝大家常來捧場。', '吃得還習慣嗎？有建議都可以跟我說。'] },
+  wake:   { pose: 'greet', lines: ['下一桌的鍋貼馬上好！', '還要加點什麼嗎？小菜跟湯都有。'] },
+};
+let sceneCat = null, sceneToken = 0, scenePlaying = false, sceneUserPaused = false, sceneVisible = false, sceneBubbleT;
+function sceneGeom(){
+  const st = $('sceneStage'), W = st.clientWidth, H = st.clientHeight, sx = W / 1672, sy = H / 941;
+  const back = x => 650 - (x - 660) * 0.1107, front = x => 780 - (x - 50) * 0.1171;
+  return {
+    W, H, w: Math.max(70, W * 0.17),
+    xL: 820 * sx, xR: 1500 * sx, xRest: 1180 * sx,                  // 巡視範圍：店長右側到吧檯右段
+    path: xc => { const x = xc / sx; return (back(x) + (front(x) - back(x)) * 0.45) * sy; }, // 腳掌踩在檯面中段
+    scale: xc => 1 - (xc / sx - 820) / 680 * 0.18,                   // 越往吧檯深處越小
+    rot: Math.atan(-(0.1107 * 0.55 + 0.1171 * 0.45) * sy / sx) * 180 / Math.PI, // 檯面往右後方升高約 6°
+  };
+}
+function setScenePose(pose){
+  const k = $('sceneKeeper'); if (k.dataset.pose === pose) return;
+  k.dataset.pose = pose;
+  k.querySelectorAll('img').forEach(im => im.classList.toggle('on', im.dataset.p === pose));
+  if (!reduced.matches) { k.classList.remove('nod'); void k.offsetWidth; k.classList.add('nod'); }
+}
+function sceneSay(key, ms = 3600){
+  const s = SCENE_LINES[key], b = $('sceneBubble');
+  setScenePose(s.pose);
+  b.textContent = pick(s.lines); b.hidden = false; b.style.animation = 'none'; void b.offsetWidth; b.style.animation = '';
+  clearTimeout(sceneBubbleT); if (ms) sceneBubbleT = setTimeout(() => { b.hidden = true; }, ms);
+}
+const wait = ms => new Promise(r => setTimeout(r, ms));
+// 行走：速度跟著步幅（一個四格循環約前進半個身長），起步與停下有加減速；越遠越小也越慢，腳不會打滑
+function catMove(cat, x1, G){
+  const dirSign = Math.sign(x1 - cat.xc), FPS = 6, ramp = 0.45;           // FPS：每秒 6 格 = 1.5 個步伐循環
+  let x = cat.xc, last = performance.now(), phase = 0, startT = last;
+  return new Promise(res => {
+    const tick = now => {
+      if (!cat.alive) return res();
+      const dt = Math.min(0.05, (now - last) / 1000); last = now;
+      const s = G.scale(x), full = cat.body * s * 0.5 * (FPS / 4);           // 每秒前進 = 半個身長 × 每秒循環數
+      const remain = Math.abs(x1 - x), into = (now - startT) / 1000;
+      const k = Math.min(1, into / ramp, remain / (full * ramp) + 0.15);     // 加速 / 減速係數
+      const v = full * k;
+      x += dirSign * Math.min(remain, v * dt);
+      phase += FPS * dt * k;                                                 // 步伐跟著實際速度走
+      cat.placeC(x, G.path(x), G.scale(x), G.rot);
+      cat.show(WALK[Math.floor(phase) % 4]);
+      if (Math.abs(x1 - x) > 0.5) requestAnimationFrame(tick); else res();
+    };
+    requestAnimationFrame(tick);
+  });
+}
+async function catPose(cat, frames, token){ for (const [f, ms] of frames) { if (token !== sceneToken || !cat.alive) return; cat.show(f); await wait(ms); } }
+async function sceneRest(cat, token){
+  sceneSay('rest', 0);
+  await catPose(cat, [['rest2', 500], ['rest3', 900], ['rest4', 4200 + Math.random() * 1800]], token); // 站好 → 趴下 → 睡著
+  if (token !== sceneToken) return;
+  $('sceneBubble').hidden = true;
+  await catPose(cat, [['rest3', 700], ['rest2', 400]], token);                                       // 醒來 → 站起
+  if (token !== sceneToken) return;
+  sceneSay('wake', 2600); await wait(1800);                                                         // 讓「睡飽了？」說完再出發
+  return true;
+}
+async function sceneLoop(){
+  const token = ++sceneToken, G = sceneGeom();
+  let cat = sceneCat;
+  if (!cat || cat.xc == null || Math.abs(cat.w - G.w) > 1) {
+    cat = sceneCat = new ShopCat($('sceneCat'), G.w); cat.face('left');
+    cat.placeC(G.W + G.w, G.path(G.xR), G.scale(G.xR), G.rot);    // 從吧檯右側外走進畫面
+  }
+  cat.alive = true;
+  const live = () => token === sceneToken && cat.alive;
+  if (cat.cur === 'rest4') { $('sceneBubble').hidden = true; await catPose(cat, [['rest3', 600], ['rest2', 400]], token); if (!live()) return; } // 從睡姿醒來再出發
+  sceneSay('invite', 3200);
+  let walks = 0;
+  while (live()) {
+    // 隨機挑下一個停點（至少走巡視範圍的 1/4），不再固定兩端來回
+    const span = G.xR - G.xL; let target;
+    do { target = G.xL + Math.random() * span; } while (Math.abs(target - cat.xc) < span * 0.25);
+    const dir = target < cat.xc ? 'left' : 'right';
+    if (dir !== cat.dir) { cat.show('rest2'); cat.face(dir); await wait(340); if (!live()) break; } // 站定轉身
+    if (Math.random() < 0.75) sceneSay(dir === 'left' ? (Math.random() < 0.5 ? 'toward' : 'invite') : (Math.random() < 0.6 ? 'away' : 'invite'));
+    await catMove(cat, target, G); if (!live()) break;
+    walks++;
+    // 走越久越容易累：趴下睡一會兒；否則探頭聞聞或站著看看
+    if (walks >= 2 && Math.random() < 0.3 + (walks - 2) * 0.25) { await sceneRest(cat, token); walks = 0; }
+    else await catPose(cat, Math.random() < 0.5 ? [['rest1', 1100], ['rest2', 700]] : [['rest2', 1500]], token);
+  }
+}
+// 靜止畫面（減少動態效果或使用者暫停）：店貓睡在吧檯上，店長合掌示意小聲
+function sceneStill(){
+  sceneToken++;
+  const G = sceneGeom();
+  if (!sceneCat || Math.abs(sceneCat.w - G.w) > 1) { if (sceneCat) sceneCat.stop(); sceneCat = new ShopCat($('sceneCat'), G.w); sceneCat.face('left'); }
+  const x = sceneCat.xc != null && sceneCat.xc < G.W ? sceneCat.xc : G.xRest;
+  sceneCat.placeC(x, G.path(x), G.scale(x), G.rot); sceneCat.show('rest4');
+  sceneSay('rest', 0);
+}
+function updateSceneBtn(){
+  const b = $('sceneToggle');
+  b.textContent = scenePlaying ? '❚❚ 暫停店內動態' : '▶ 播放店內動態';
+  b.setAttribute('aria-pressed', String(!scenePlaying));
+}
+function scenePlay(){ if (scenePlaying) return; scenePlaying = true; updateSceneBtn(); catReady.then(sceneLoop); }
+function scenePause(){ scenePlaying = false; updateSceneBtn(); if (sceneCat) sceneCat.stop(); sceneStill(); }
+$('sceneToggle').addEventListener('click', () => {
+  if (scenePlaying) { sceneUserPaused = true; scenePause(); } else { sceneUserPaused = false; scenePlay(); }
+});
+// 進入畫面才播放、離開就暫停；減少動態效果時預設靜止，可按鈕播放
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(es => {
+    sceneVisible = es[es.length - 1].isIntersecting;
+    if (sceneVisible && !scenePlaying && !sceneUserPaused && !reduced.matches) scenePlay();
+    else if (!sceneVisible && scenePlaying) { scenePlaying = false; if (sceneCat) sceneCat.stop(); sceneToken++; updateSceneBtn(); }
+  }, { threshold: 0.35 }).observe($('sceneStage'));
+}
+catReady.then(() => { if (!scenePlaying) sceneStill(); updateSceneBtn(); });
+
+/* 三、示範訂單完成：店貓跳上「本日示範訂單」木板 */
+function runDoneCat(){
+  const stage = $('doneCat'); if (!stage) return;
+  const layer = stage.querySelector('.cat-layer'), SW = stage.clientWidth, SH = stage.clientHeight;
+  const w = SW < 420 ? 92 : 112, cat = new ShopCat(layer, w);
+  const ledge = SH - 34 - 12 + 2, floor = SH - 6;
+  const nxL = SW * 0.08 + w * 0.04, nx0 = Math.min(SW - cat.body - 8, nxL + SW * 0.42);
+  if (reduced.matches) { cat.place(nxL, ledge); cat.show('jump4'); return; }
+  cat.el.classList.add('enter'); cat.place(nx0, floor); cat.show('jump1');
+  requestAnimationFrame(() => cat.el.classList.remove('enter'));
+  catReady.then(() => cat.play([{ ms: 200, frames: ['jump1'] }, ...jumpSteps(nx0, floor, nxL, ledge, true)])).then(() => { if (cat.alive) cat.show('jump4'); });
+}
+
+// 首屏：每次載入播放一次。店貓幀圖載好就開始，不等外部字型與 CDN
+const fontsReady = Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Promise(r => setTimeout(r, 1500))]); // 字型換上後版面才穩定
+Promise.all([catReady, fontsReady]).then(() => setTimeout(() => runHeroCat(), 300));
+$('heroReplay').addEventListener('click', () => catReady.then(() => runHeroCat(true)));
+/* 首屏燈籠：點一下會晃 */
+$('lantern').addEventListener('click', e => { const l = e.currentTarget; l.classList.remove('shake'); void l.offsetWidth; l.classList.add('shake'); });
+$('lantern').addEventListener('animationend', e => { if (e.animationName === 'shake') e.currentTarget.classList.remove('shake'); });
+
+/* 店長讓位：用店長固定的位置計算（不受讓位動畫影響），與首屏按鈕重疊就讓開 */
+function keeperDodge(){
+  const cta = document.querySelector('.hero-cta'); if (!cta) return;
+  const a = cta.getBoundingClientRect(), size = innerWidth <= 640 ? 78 : 118;
+  const kTop = innerHeight - 12 - size - size * 0.34, kRight = 14 + size + 20;
+  const hit = a.left < kRight && a.bottom > kTop - 8 && a.top < innerHeight;
+  if (hit && !bubble.hidden) hideBubble();
+  keeper.classList.toggle('dodge', hit);
+}
+addEventListener('scroll', keeperDodge, { passive: true });
+addEventListener('resize', keeperDodge);
+keeperDodge();
+
+/* 第一次進站，店長打招呼 */
+setTimeout(() => {
+  let seen = false; try { seen = sessionStorage.getItem('zjz-hi') === '1'; sessionStorage.setItem('zjz-hi', '1'); } catch {}
+  if (!seen && !keeperOff && !document.body.classList.contains('lock')) keeperSay('歡迎光臨！想吃什麼可以點我，幫你推薦一套。', [], { ms: 5000 });
+}, 1400);
+$('checkoutBtn').addEventListener('click', openCheckout);
+$('coClose').addEventListener('click', closeCheckout);
+$('coBody').addEventListener('click', e => { if (e.target.id === 'doneClose') closeCheckout(); });
+$('modal').addEventListener('mousedown', e => { if (e.target === $('modal')) closeCheckout(); });
+$('modal').addEventListener('keydown', e => { if (e.key === 'Escape') { e.stopPropagation(); closeCheckout(); } else trapTab(e, $('modal')); });
+
+/* =====================================================
+   初始化
+   ===================================================== */
+renderTabs(); renderMenu(); renderStore(); renderStatic(0); updateCtrl(); renderCart();
+window.addEventListener('load', icons);
+document.addEventListener('DOMContentLoaded', icons);
+</script>
+</body>
+</html>
