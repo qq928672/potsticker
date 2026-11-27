@@ -1,0 +1,20 @@
+{
+  "name": "炙餃座",
+  "short_name": "炙餃座",
+  "description": "從鍋貼吃到高級料理。線上點餐、冷凍禮盒、門市資訊。",
+  "id": "./",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1B120C",
+  "theme_color": "#1B120C",
+  "lang": "zh-Hant-TW",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "線上點餐", "short_name": "點餐", "url": "./?source=shortcut#order", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
