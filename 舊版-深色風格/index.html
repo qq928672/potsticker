@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="炙餃座，一間以鍋貼為主角的預約制小店。看看招牌餐點、暫定售價，並預先排好點餐單與用餐時段。">
+  <meta name="theme-color" content="#14110f">
+  <title>炙餃座｜從鍋貼吃到高級料理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body id="top">
+  <div class="progress" aria-hidden="true"><i></i></div>
+  <a class="skip" href="#main">跳至主要內容</a>
+
+  <header class="header">
+    <div class="wrap header-inner">
+      <a class="wordmark" href="#top" aria-label="炙餃座，回首頁">炙餃座<span aria-hidden="true">.</span></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" hidden>選單 <span aria-hidden="true">☰</span></button>
+      <nav id="site-nav" aria-label="主要導覽">
+        <a href="#menu">招牌餐點</a>
+        <a href="#story">品牌故事</a>
+        <a href="#visit">店鋪資訊</a>
+        <a class="button button-small" href="#reservation">預約用餐 <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <span class="hero-kanji" aria-hidden="true">炙</span>
+      <div class="hero-copy">
+        <p class="eyebrow">鍋貼料理 <span></span> 預約制</p>
+        <h1 id="hero-title"><span class="line">從鍋貼吃到</span><span class="line">高級料理<em>。</em></span></h1>
+        <p class="intro">從一盤酥脆的鍋貼開場，慢慢吃完一餐。<br>在有居酒屋氣氛的小店，和朋友好好聚一聚。</p>
+        <div class="actions">
+          <a class="button" href="#reservation">預約用餐 <span class="arrow" aria-hidden="true">↗</span></a>
+          <a class="menu-link" href="#menu">查看菜單 <span aria-hidden="true">↓</span></a>
+        </div>
+        <ul class="hero-stats" aria-label="小店特色">
+          <li><b data-count="3">3</b><span>款招牌鍋貼</span></li>
+          <li><b data-count="8">8</b><span>顆一份</span></li>
+          <li><b>預約制</b><span>留一張桌給你</span></li>
+        </ul>
+      </div>
+      <figure class="hero-photo tilt" data-tilt="9">
+        <div class="hero-frame"><img src="assets/hero.jpg" alt="深色陶盤上的手工鍋貼，側放露出金黃焦脆的底部" width="1500" height="1000" fetchpriority="high"></div>
+        <span class="stamp" aria-hidden="true">酥<br>脆</span>
+        <figcaption>鍋貼近拍・生成示意</figcaption>
+      </figure>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>酥脆底煎</span><span>多汁內餡</span><span>預約制小店</span><span>居酒屋氣氛</span><span>現煎現吃</span>
+        <span>酥脆底煎</span><span>多汁內餡</span><span>預約制小店</span><span>居酒屋氣氛</span><span>現煎現吃</span>
+      </div>
+    </div>
+
+    <section class="menu wrap section" id="menu" aria-labelledby="menu-title">
+      <div class="section-heading reveal">
+        <h2 id="menu-title">招牌餐點</h2>
+        <p>餐點、照片與價格皆為暫定示意，正式菜單待補。</p>
+      </div>
+
+      <noscript><p class="noscript">此區需要啟用 JavaScript 才能瀏覽互動菜單。</p></noscript>
+
+      <div class="showcase reveal" id="showcase" hidden>
+        <div class="stage tilt" data-tilt="7">
+          <div class="stage-photo" id="stage-photo"></div>
+          <span class="price-badge" id="stage-price"></span>
+        </div>
+        <article class="detail" id="detail" aria-live="polite">
+          <p class="detail-tag" id="d-tag"></p>
+          <h3 id="d-name"></h3>
+          <p class="detail-desc" id="d-desc"></p>
+          <dl class="detail-meta">
+            <div><dt>份量</dt><dd id="d-portion"></dd></div>
+            <div><dt>暫定售價</dt><dd id="d-price" class="price"></dd></div>
+          </dl>
+          <fieldset class="spice" id="d-spice-box">
+            <legend>辣度</legend>
+            <div class="chips" id="d-spice"></div>
+          </fieldset>
+          <div class="buy">
+            <div class="stepper" role="group" aria-label="數量">
+              <button type="button" id="d-minus" aria-label="減少一份">−</button>
+              <output id="d-qty" aria-live="polite">1</output>
+              <button type="button" id="d-plus" aria-label="增加一份">+</button>
+            </div>
+            <button class="button add" type="button" id="d-add">加入點餐單 <span id="d-sub"></span></button>
+          </div>
+        </article>
+      </div>
+
+      <div class="menu-controls reveal" id="menu-controls" hidden>
+        <div class="tabs" role="tablist" aria-label="餐點分類" id="cat-tabs"></div>
+        <p class="hint">點選餐點，上方即時更新</p>
+      </div>
+      <ul class="dish-cards reveal" id="dish-cards" hidden></ul>
+    </section>
+
+    <section class="story section" id="story" aria-labelledby="story-title">
+      <div class="wrap story-grid">
+        <figure class="reveal">
+          <div class="story-frame"><img src="assets/story.jpg" alt="料理人用鍋鏟從鐵煎台鏟起一排金黃鍋貼" width="1500" height="1000" loading="lazy"></div>
+          <figcaption>鍋貼煎製・生成示意</figcaption>
+        </figure>
+        <div class="reveal">
+          <p class="eyebrow">品牌故事</p>
+          <h2 id="story-title">一餐，從煎台開始。</h2>
+          <p>我們想把平常就愛吃的鍋貼，做成值得專程來吃的一餐。先吃一口剛起鍋的酥脆，再慢慢嚐接下來的料理。炙餃座採預約制，留一張桌給你和朋友，坐下來好好吃一餐。</p>
+          <ol class="steps">
+            <li class="tilt" data-tilt="16"><b>01</b><span>預約入座</span></li>
+            <li class="tilt" data-tilt="16"><b>02</b><span>現煎開場</span></li>
+            <li class="tilt" data-tilt="16"><b>03</b><span>慢慢吃完</span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap visit" id="visit" aria-labelledby="visit-title">
+      <div class="section-heading reveal"><h2 id="visit-title">店鋪資訊</h2></div>
+      <div class="visit-grid">
+        <div class="reveal">
+          <!-- 填入店家資訊，並在 data-map-url 貼上店家的地圖連結。 -->
+          <dl>
+            <div><dt>營業時間</dt><dd>待補</dd></div>
+            <div><dt>地址</dt><dd>待補</dd></div>
+            <div><dt>聯絡方式</dt><dd>待補</dd></div>
+          </dl>
+          <p class="map-status" id="map-status">地址待補，地圖尚未開放。</p>
+          <a class="menu-link" id="map-link" data-map-url="" hidden>查看地圖 <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <div class="reservation reveal" id="reservation" aria-labelledby="reservation-title">
+          <h3 id="reservation-title">預約用餐</h3>
+          <p class="res-note">採預約制。開放時段、人數限制與取消規則待補。你可以先排好時段與點餐單，產生預約單後複製給店家。</p>
+
+          <form id="res-form" novalidate>
+            <div class="field">
+              <label for="r-date">用餐日期</label>
+              <input type="date" id="r-date" required>
+            </div>
+            <fieldset class="field">
+              <legend>時段</legend>
+              <div class="chips" id="r-times"></div>
+            </fieldset>
+            <div class="field">
+              <span class="label">人數</span>
+              <div class="stepper" role="group" aria-label="用餐人數">
+                <button type="button" id="r-minus" aria-label="減少一人">−</button>
+                <output id="r-people" aria-live="polite">2</output>
+                <button type="button" id="r-plus" aria-label="增加一人">+</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="r-name">稱呼</label>
+              <input type="text" id="r-name" autocomplete="name" placeholder="例如：王小姐">
+            </div>
+
+            <div class="order" id="order">
+              <div class="order-head"><h4>我的點餐單</h4><button type="button" class="link-btn" id="order-clear" hidden>清空</button></div>
+              <p class="order-empty" id="order-empty">還沒有點餐，到上方「招牌餐點」加入喜歡的鍋貼。</p>
+              <ul id="order-list"></ul>
+              <p class="order-total" id="order-total" hidden><span>預估小計</span><b id="order-sum"></b></p>
+            </div>
+
+            <p class="form-error" id="form-error" role="alert" hidden></p>
+            <button class="button" type="submit">產生預約單 <span class="arrow" aria-hidden="true">↗</span></button>
+          </form>
+
+          <div class="ticket" id="ticket" hidden>
+            <div class="ticket-head"><b>預約單</b><span>尚未送出・僅供複製</span></div>
+            <pre id="ticket-text"></pre>
+            <div class="ticket-actions">
+              <button type="button" class="button" id="ticket-copy">複製預約單</button>
+              <button type="button" class="link-btn" id="ticket-back">返回修改</button>
+            </div>
+          </div>
+
+          <!-- 正式開放預約時，在 data-booking-url 貼上預約網址。 -->
+          <p class="booking-status" id="booking-status">線上預約尚未開放</p>
+          <a class="button" id="booking-link" data-booking-url="" hidden>前往預約 <span class="arrow" aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="wrap footer-inner"><a class="wordmark" href="#top">炙餃座<span aria-hidden="true">.</span></a><a class="menu-link" href="#top">回到頂端 <span aria-hidden="true">↑</span></a></div></footer>
+
+  <a class="cart-pill" id="cart-pill" href="#reservation" hidden aria-label="查看我的點餐單">
+    <span class="cart-count" id="cart-count">0</span>
+    <span>點餐單</span>
+    <b id="cart-sum">NT$0</b>
+  </a>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
